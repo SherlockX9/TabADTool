@@ -6,31 +6,47 @@
         xmlns:local="clr-namespace:Text2TreeTool"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New Attack Tree" />
-                <MenuItem Header="_Export Tree to" />
-                <MenuItem Header="_Print" />
-                <MenuItem Header="_Close Tree" />
-                <Separator />
-                <MenuItem Header="_Exit" />
-            </MenuItem>
-            <MenuItem Header="_View">
-                <MenuItem Header="_Zoom in"/>
-                <MenuItem Header="_Zoom out"/>
-                <MenuItem Header="_Fullscreen"/>
-            </MenuItem>
-            <MenuItem Header="_Actions">
-                <MenuItem Header="_Undo... Ctrl+Z"/>
-                <MenuItem Header="_Redo... Ctrl+Y"/>
-                <MenuItem Header="_Fullscreen"/>
-            </MenuItem>
-            <MenuItem Header="_Help">
-                <MenuItem Header="_Sample Trees"/>
-            </MenuItem>
-        </Menu>
-        <TextBox AcceptsReturn="True" />
-    </DockPanel>
- 
+    <StackPanel>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File" Click="MenuItem_Click_1">
+                    <MenuItem Header="_New Attack Tree" />
+                    <MenuItem Header="_Export Tree to" />
+                    <MenuItem Header="_Print" />
+                    <MenuItem Header="_Close Tree" />
+                    <Separator />
+                    <MenuItem Header="_Exit" />
+                </MenuItem>
+                <MenuItem Header="_View">
+                    <MenuItem Header="_Zoom in"/>
+                    <MenuItem Header="_Zoom out"/>
+                    <MenuItem Header="_Fullscreen"/>
+                </MenuItem>
+                <MenuItem Header="_Actions" Click="MenuItem_Click">
+                    <MenuItem Header="_Undo... Ctrl+Z"/>
+                    <MenuItem Header="_Redo... Ctrl+Y"/>
+                    <MenuItem Header="_Fullscreen"/>
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="_Sample Trees"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <TextBox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="1" AcceptsReturn="True"/>
+            <TextBox Grid.Column="1" VerticalAlignment="Stretch" AcceptsReturn="True"/>
+            <TextBox Grid.Row="1" AcceptsReturn="True" Grid.ColumnSpan="2"/>
+
+        </Grid>    
+
+    </StackPanel>
+
 </Window>
