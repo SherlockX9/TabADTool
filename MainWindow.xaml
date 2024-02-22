@@ -6,8 +6,18 @@
         xmlns:local="clr-namespace:Text2TreeTool"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <StackPanel>
-        <DockPanel>
+    
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3*"/>
+             <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File" Click="MenuItem_Click_1">
                     <MenuItem Header="_New Attack Tree" />
@@ -32,21 +42,12 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <TextBox VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="1" AcceptsReturn="True"/>
-            <TextBox Grid.Column="1" VerticalAlignment="Stretch" AcceptsReturn="True"/>
-            <TextBox Grid.Row="1" AcceptsReturn="True" Grid.ColumnSpan="2"/>
+            <TextBox Grid.Row="1" AcceptsReturn="True"/>
+            <TextBox Grid.Column="1" Grid.Row="1" AcceptsReturn="True"/>
+            <TextBox Grid.Row="2" AcceptsReturn="True" Grid.ColumnSpan="2"/>
 
+
+    
         </Grid>    
-
-    </StackPanel>
 
 </Window>
