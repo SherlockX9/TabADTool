@@ -8,4 +8,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="24.2.3" />
+  </ItemGroup>
+
 </Project>

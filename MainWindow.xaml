@@ -4,6 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Text2TreeTool"
+        
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     
@@ -42,9 +45,11 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-            <TextBox Grid.Row="1" AcceptsReturn="True"/>
-            <TextBox Grid.Column="1" Grid.Row="1" AcceptsReturn="True"/>
+            <TextBox Grid.Row="1" Grid.Column="0" AcceptsReturn="True"/>
+            <!-- <TextBox Grid.Column="1" Grid.Row="1" AcceptsReturn="True"/> -->
+            <syncfusion:SfDiagram Grid.Row="1" Grid.Column="1" x:Name="Diagram"/>
             <TextBox Grid.Row="2" AcceptsReturn="True" Grid.ColumnSpan="2"/>
+            
 
 
     
