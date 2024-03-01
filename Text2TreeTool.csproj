@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="24.2.3" />
+    <ReferencePathWithRefAssemblies Update="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.0\ref\net8.0\Microsoft.Win32.Registry.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="24.2.7" />
   </ItemGroup>
 
 </Project>
