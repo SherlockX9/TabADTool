@@ -44,6 +44,11 @@
                     <!-- <Setter Property="" /> -->
                     <Setter Property="Stroke" Value="LightBlue"/>
                     <Setter Property="StrokeThickness" Value="2"/>
+                    <Style.Triggers>
+                    <!-- <DataTrigger Binding="{Binding IsAndNode}" Value="True"> -->
+                    <!--     <Setter Property=""></Setter> -->
+                    <!-- </DataTrigger> -->
+                    </Style.Triggers>
                 </Style>
             </Setter.Value>
         </Setter>

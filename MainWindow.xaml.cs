@@ -31,6 +31,7 @@ namespace Text2TreeTool
         public string ParentId { get; set; }
         
         public string _Color { get; set; }
+        public bool IsAndNode { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -79,6 +80,7 @@ namespace Text2TreeTool
             {
                 int currentLevel = line.Length - line.TrimStart('\t').Length;
                 string nodeName = line.TrimStart('\t').TrimEnd();
+                string trimmedNodeName = nodeName.TrimStart('\t').TrimEnd();
 
                 if (string.IsNullOrWhiteSpace(nodeName))
                     continue;
@@ -88,7 +90,14 @@ namespace Text2TreeTool
                     Name = nodeName,
                     NodeId = nodeIdCounter.ToString(), // Use the counter for unique ID
                     _Color = "#034d6d",
+                    IsAndNode = trimmedNodeName.StartsWith("AND")
                 };
+                if (node.IsAndNode)
+                {
+                    trimmedNodeName = trimmedNodeName.Substring(3).Trim(); // Remove the 'AND' keyword from the node name
+                }
+
+                node.Name = trimmedNodeName;
 
                 nodeIdCounter++; // Increment ID counter for the next node
 
@@ -161,7 +170,7 @@ namespace Text2TreeTool
                     HorizontalSpacing = 60,
                     VerticalSpacing = 50,
                 }, 
-                // RefreshFrequency = RefreshFrequency.ArrangeParsing, 
+                RefreshFrequency = RefreshFrequency.ArrangeParsing, 
             };
         }
 
