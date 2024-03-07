@@ -1,194 +1,268 @@
 ﻿using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Syncfusion.UI.Xaml.Diagram;
-using Syncfusion.UI.Xaml.Diagram.Stencil;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Win32;
+using Syncfusion.UI.Xaml.Diagram;
+using Syncfusion.UI.Xaml.Diagram.Controls;
 using Syncfusion.UI.Xaml.Diagram.Layout;
-using Syncfusion.UI.Xaml.Diagram.Theming;
 
-namespace Text2TreeTool
+namespace Text2TreeTool;
+
+/// <summary>
+///     Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class EachNode : ObservableObject
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public class EachNode : INotifyPropertyChanged
+    // [ObservableProperty] private string _connectorColor;
+    public string Name { get; set; }
+    public string NodeId { get; set; }
+
+    public string ParentId { get; set; }
+
+    // public string _Color { get; set; }
+    public bool IsAndNode { get; set; }
+
+    public bool IsParentAndNode { get; set; }
+    // [ObservableProperty] public bool IsParentAndNode { get; set; }
+    
+    public bool IsDefenceNode { get; set; }
+    
+
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
-        public string Name { get; set; }
-        public string NodeId { get; set; }
-        public string ParentId { get; set; }
-        
-        public string _Color { get; set; }
-        public bool IsAndNode { get; set; }
-        public event PropertyChangedEventHandler? PropertyChanged;
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
+}
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
-        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-            field = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
+
+public class EachNodes : ObservableCollection<EachNode>
+{
+}
+
+public partial class MainWindow : Window
+{
+    public MainWindow()
+    {
+        InitializeComponent();
+        //Initialize the node collection
+        Diagram.Nodes = new NodeCollection();
+        Diagram.Connectors = new ConnectorCollection();
     }
 
-    public class EachNodes : ObservableCollection<EachNode>
+    private EachNodes GetData()
     {
-    }
-    public partial class MainWindow : Window
-    {
-        
-        public MainWindow()
-        {
-            InitializeComponent();
-            //Initialize the node collection
-            Diagram.Nodes = new NodeCollection();
-            Diagram.Connectors = new ConnectorCollection();
-            Diagram.Theme = new OfficeTheme();
-            
-        }
+        var tabDelimitedText = ATdescription.Text;
+        var lines = tabDelimitedText.Split(
+            new[] { '\r', '\n' },
+            StringSplitOptions.RemoveEmptyEntries);
+        var nodes = new EachNodes();
+        var parentStack = new Stack<EachNode>();
+        var nodeIdCounter = 1; // Initialize node ID counter to ensure unique IDs
+        var rootAdded = false; // Track whether the first root node has been added
+        EachNode lastAddedNode = null; // Track the last added node
 
-        private EachNodes GetData()
+        foreach ((var lineNumber, var line) in lines.Select((value, index) => (index + 1, value)))
         {
-            string tabDelimitedText = ATdescription.Text;
-            string[] lines = tabDelimitedText.Split(
-                new char[] { '\r', '\n' },
-                StringSplitOptions.RemoveEmptyEntries);
-            EachNodes nodes = new EachNodes();
-            Stack<EachNode> parentStack = new Stack<EachNode>();
-            int nodeIdCounter = 1; // Initialize node ID counter to ensure unique IDs
-            bool rootAdded = false; // Track whether the first root node has been added
-            EachNode lastAddedNode = null; // Track the last added node
+            var currentLevel = line.Length - line.TrimStart('\t').Length;
+            var nodeName = line.TrimStart('\t').TrimEnd();
+            var trimmedNodeName = nodeName.TrimStart('\t').TrimEnd();
 
-            foreach (var line in lines)
+            if (string.IsNullOrWhiteSpace(nodeName))
             {
-                int currentLevel = line.Length - line.TrimStart('\t').Length;
-                string nodeName = line.TrimStart('\t').TrimEnd();
-                string trimmedNodeName = nodeName.TrimStart('\t').TrimEnd();
-
-                if (string.IsNullOrWhiteSpace(nodeName))
-                    continue;
-
-                EachNode node = new EachNode()
-                {
-                    Name = nodeName,
-                    NodeId = nodeIdCounter.ToString(), // Use the counter for unique ID
-                    _Color = "#034d6d",
-                    IsAndNode = trimmedNodeName.StartsWith("AND")
-                };
-                if (node.IsAndNode)
-                {
-                    trimmedNodeName = trimmedNodeName.Substring(3).Trim(); // Remove the 'AND' keyword from the node name
-                }
-
-                node.Name = trimmedNodeName;
-
-                nodeIdCounter++; // Increment ID counter for the next node
-
-                // Ignore nodes with zero indentation after the first one has been added
-                if (currentLevel == 0 && rootAdded)
-                    continue;
-
-                // Clear stack to the current level (find the correct parent)
-                while (parentStack.Count > currentLevel)
-                {
-                    parentStack.Pop();
-                }
-
-                // Set the parent ID for non-root nodes
-                if (parentStack.Count > 0)
-                {
-                    node.ParentId = parentStack.Peek().NodeId;
-                }
-                else if (!rootAdded)
-                {
-                    // If no parent in the stack and the first root node hasn't been added,
-                    // set ParentId to null or 0 for the root node
-                    node.ParentId = null; // or "0" if you prefer string representation
-                    rootAdded = true;
-                }
-
-                // Push the current node onto the stack as the new potential parent
-                parentStack.Push(node);
-
-                nodes.Add(node);
-
-                // Update the last added node
-                lastAddedNode = node;
+                SearchTermTextBox.Text = $"Message: Line {lineNumber} has whitespace but no text.";
+            
+                continue;
             }
 
-            return nodes;
 
+            var node = new EachNode
+            {
+                Name = nodeName,
+                NodeId = nodeIdCounter.ToString(), // Use the counter for unique ID
+                IsAndNode = trimmedNodeName.StartsWith("AND"),
+                IsDefenceNode = trimmedNodeName.StartsWith("DEFENCE"),
+            };
+            if (node.IsAndNode)
+            {
+                trimmedNodeName =
+                    trimmedNodeName.Substring(3).Trim(); // Remove the 'AND' keyword from the node name
+            }
+            else if (node.IsDefenceNode)
+            {
+                trimmedNodeName =
+                    trimmedNodeName.Substring(7).Trim(); // Remove the 'DEFENCE' keyword from the node name
+            }
 
+            node.Name = trimmedNodeName;
+
+            nodeIdCounter++; // Increment ID counter for the next node
+
+            // Ignore nodes with zero indentation after the first one has been added
+            if (currentLevel == 0 && rootAdded)
+                continue;
+
+            // Clear stack to the current level (find the correct parent)
+            while (parentStack.Count > currentLevel) parentStack.Pop();
+
+            // Set the parent ID for non-root nodes
+            if (parentStack.Count > 0)
+            {
+                node.ParentId = parentStack.Peek().NodeId;
+                // node.IsParentAndNode = parentStack.Peek().IsAndNode;
+                node.IsParentAndNode = parentStack.Count > 0 && parentStack.Peek().IsAndNode;
+                Console.WriteLine($"Node: {node.Name}, ParentAndNode: {node.IsParentAndNode}");
+            }
+            else if (!rootAdded)
+            {
+                // If no parent in the stack and the first root node hasn't been added,
+                // set ParentId to null or 0 for the root node
+                node.ParentId = null; // or "0" if you prefer string representation
+                rootAdded = true;
+            }
+
+            // Push the current node onto the stack as the new potential parent
+            parentStack.Push(node);
+
+            nodes.Add(new EachNode(){NodeId=node.NodeId, ParentId = node.ParentId, Name = node.Name, IsAndNode = node.IsAndNode, IsParentAndNode = node.IsParentAndNode, IsDefenceNode = node.IsDefenceNode});
+
+            // Update the last added node
+            lastAddedNode = node;
         }
 
+        return nodes;
+    }
+
+
+    private void MenuItem_Click(object sender, RoutedEventArgs e)
+    {
+    }
+
+    private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+    {
+    }
+
+    private void Button_OnClick(object sender, RoutedEventArgs e)
+    {
+        Diagram.DataSourceSettings = new DataSourceSettings
+        {
+            Id = "NodeId",
+            ParentId = "ParentId",
+            Root = "1",
+            DataSource = GetData()
  
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        };
+        Diagram.LayoutManager = new LayoutManager
         {
+            Layout = new DirectedTreeLayout
+            {
+                Type = LayoutType.Hierarchical,
+                Orientation = TreeOrientation.TopToBottom,
+                HorizontalSpacing = 60,
+                VerticalSpacing = 70
+            },
+            RefreshFrequency = RefreshFrequency.ArrangeParsing
+        };
+        Diagram.LayoutManager.Layout.UpdateLayout();
+        Diagram.InvalidateMeasure();
+        Diagram.InvalidateArrange();
+        // Diagram.UpdateLayout();
+    }
 
-        }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
+    private void MenuItem_OnClic(object sender, RoutedEventArgs e)
+    {
+        Diagram.PrintingService.ShowDialog = true;
+        Diagram.PrintingService.Print();
+        // throw new NotImplementedException();
+    }
 
-        }
+    private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+    {
+        var tabDelimited =
+            "Bank account\n\tCash Machine\n\t\tPIN\n\t\t\tFind Note\n\t\t\tEavesdrop\n\t\t\tPhysical Force\n\t\tCard\n\tOnline Account\n\t\tPassword\n\t\t\tPhishing\n\t\t\tKey Logger\n\t\tUsername";
+        ATdescription.Text = tabDelimited;
+    }
 
-        private void Button_OnClick(object sender, RoutedEventArgs e)
-        {
+    private void MenuItem_ExportClick(object sender, RoutedEventArgs e)
+    {
+        
+        Console.WriteLine("Export button clicked. Initiating export operation...");
 
-            Diagram.DataSourceSettings = new DataSourceSettings()
+        // Configure export settings
+        ExportSettings settings = new ExportSettings()
+        {  
+            FileName = "C:\\Users\\premi\\Documents\\Uni\\Finalyearproject\\Syncfusion image exports\\DiagramExport.png",
             
-            {
-                Id = "NodeId",
-                ParentId = "ParentId",
-                Root = "1",
-                DataSource = GetData(),
-            };
-            Diagram.LayoutManager = new LayoutManager()
-            {
-                Layout = new DirectedTreeLayout()
-                {
-                    Type = LayoutType.Hierarchical,
-                    Orientation = TreeOrientation.TopToBottom,
-                    HorizontalSpacing = 60,
-                    VerticalSpacing = 50,
-                }, 
-                RefreshFrequency = RefreshFrequency.ArrangeParsing, 
-            };
-        }
+        }; 
 
+        // Set export settings for the Diagram
+        Diagram.ExportSettings = settings;
 
-        private void MenuItem_OnClic(object sender, RoutedEventArgs e)
+        try
         {
-            Diagram.PrintingService.ShowDialog = true;
-            Diagram.PrintingService.Print();
-            // throw new NotImplementedException();
-        }
+            // Trigger the export operation
+            Diagram.Export();
 
-        private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+            // Log a message indicating that the export operation succeeded
+            Console.WriteLine("Export operation completed successfully.");
+
+            // At this point, the Save File Dialog should be shown by the Syncfusion Diagram control.
+            // If the dialog is not shown, there might be an issue with the Syncfusion control.
+
+        }
+        catch (Exception ex)
         {
-            string tabDelimited = "Fruits\n\tOranges\n\t\tSatsumas\n\t\tTangarines\n\tBananas\n\tGrapes\n\tBerries\n\t\tRasberries\n\t\tBlueberries\n\t\tBlackberries";
-            ATdescription.Text = tabDelimited;
+            // Log an error message if the export operation fails
+            Console.WriteLine($"Export operation failed. Error: {ex.Message}");
+        }
+    }
+
+    private void MenuItemFullScreen(object sender, RoutedEventArgs e)
+    {
+        WindowState = WindowState.Maximized;
+        WindowStyle = WindowStyle.None;
+        // throw new NotImplementedException();
+    }
+
+    private void SaveMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("clicked");
+        // SaveDiagram();
+        MessageBox.Show("Diagram saved successfully.", "Save Diagram", MessageBoxButton.OK, MessageBoxImage.Information);
+        // throw new NotImplementedException();
+    }
+
+
+    private void LoadMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        Console.WriteLine("clicked");
+        
+        MessageBox.Show("Diagram loaded successfully.", "Load Diagram", MessageBoxButton.OK, MessageBoxImage.Information);
+        // throw new NotImplementedException();
+    }
+    private void closeButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (MessageBox.Show("\t Do you want to exit? \n \t Unsaved data will be lost", " Confirm",
+                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+        {
+            Application.Current.Shutdown();
         }
     }
 
 
-}    
-
+    private void AboutItem_Click(object sender, RoutedEventArgs e)
+    {
+        AboutWindow aboutWindow = new AboutWindow();
+        aboutWindow.ResizeMode = ResizeMode.NoResize;
+        aboutWindow.Show();
+    }
+}

@@ -1,19 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net8.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ReferencePathWithRefAssemblies Update="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.0\ref\net8.0\Microsoft.Win32.Registry.dll" />
-  </ItemGroup>
+    <ItemGroup>
+        <ReferencePathWithRefAssemblies Update="C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.0\ref\net8.0\Microsoft.Win32.Registry.dll"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="24.2.7" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2"/>
+        <PackageReference Include="SharpVectors" Version="1.8.4" />
+        <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="24.2.7"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Icons\logo.svg" />
+      <Resource Include="Icons\logo.svg" />
+      <None Remove="Icons\noun-dependencies-6473971.svg" />
+      <Resource Include="Icons\noun-dependencies-6473971.svg" />
+      <None Remove="Icons\mail.svg" />
+      <Resource Include="Icons\mail.svg" />
+      <None Remove="Icons\mail-send-fill.svg" />
+      <Resource Include="Icons\mail-send-fill.svg" />
+      <None Remove="Icons\genealogy-svgrepo-com.svg" />
+      <Resource Include="Icons\genealogy-svgrepo-com.svg" />
+    </ItemGroup>
 
 </Project>

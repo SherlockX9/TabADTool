@@ -1,18 +1,16 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
+using Syncfusion.Licensing;
 
-namespace Text2TreeTool
+namespace Text2TreeTool;
+
+/// <summary>
+///     Interaction logic for App.xaml
+/// </summary>
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public App()
     {
-        public App()
-        {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzEyNTg0OUAzMjM0MmUzMDJlMzBDS25XVkNPYy9NbG9PN21tcEN4L2xxYjFEVlpLeStxTzBvVGJ2YVc4YU8wPQ==");
-        }
+        SyncfusionLicenseProvider.RegisterLicense(
+            "MzEyNTg0OUAzMjM0MmUzMDJlMzBDS25XVkNPYy9NbG9PN21tcEN4L2xxYjFEVlpLeStxTzBvVGJ2YVc4YU8wPQ==");
     }
-
 }

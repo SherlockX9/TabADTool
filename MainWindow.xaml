@@ -4,17 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Text2TreeTool"
-        
+
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-        
+
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="1250">
     <Window.DataContext>
-        <local:EachNode/>
-        
+        <local:EachNode />
+
     </Window.DataContext>
-                
-                
+
+
     <Window.Resources>
         <ResourceDictionary>
             <!--Resource Dictionary which contains predefined shapes for Node-->
@@ -22,158 +22,177 @@
                 <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BasicShapes.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-<!--Style for Node-->
-    <Style TargetType="syncfusion:Node">
-        <Setter Property="ShapeStyle">
-            <Setter.Value>
-                <Style TargetType="Path">
-                    <Setter Property="Stretch" Value="Fill"></Setter>
-                    <Setter Property="Fill" Value="LightPink"></Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
-    </Style>
+            <!--Style for Node-->
+            <Style TargetType="syncfusion:Node">
+                <Setter Property="ShapeStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stretch" Value="Fill" />
+                            <Setter Property="Fill" Value="DarkRed" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
-    <!--Style for Connector-->
-    <Style TargetType="syncfusion:Connector">
-        <Setter Property="TargetDecoratorStyle">
-            <Setter.Value>
-                <Style TargetType="Path">
-                    <Setter Property="Stretch" Value="Fill"/>
-                    <Setter Property="Fill" Value="LightBlue"/>
-                    <!-- <Setter Property="" /> -->
-                    <Setter Property="Stroke" Value="LightBlue"/>
-                    <Setter Property="StrokeThickness" Value="2"/>
-                    <Style.Triggers>
-                    <!-- <DataTrigger Binding="{Binding IsAndNode}" Value="True"> -->
-                    <!--     <Setter Property=""></Setter> -->
-                    <!-- </DataTrigger> -->
-                    </Style.Triggers>
-                </Style>
-            </Setter.Value>
-        </Setter>
-    </Style>
-            
-    <!--Style for Symbol-->
-    <Style TargetType="syncfusion:Symbol">
-        <Setter Property="Width" Value="50"/>
-        <Setter Property="Height" Value="50"/>
-        <Setter Property="Padding" Value="3" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Margin" Value="4"></Setter>
-    </Style>
-            
-     <!-- Style for connector line        -->
-    <Style TargetType="Path" x:Key="ConnectorGeometryStyle">
-                <Setter Property="Stroke" Value="Goldenrod" />
-                <Setter Property="StrokeThickness" Value="3" />
-    </Style>
 
-    <!--Style for Symbol Group-->
-    <Style TargetType="syncfusion:SymbolGroup">
-        <Setter Property="FontFamily" Value="Regular"/>
-        <Setter Property="Background" Value="#ffffff"/>
-        <Setter Property="Foreground" Value="#222222"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="HeaderTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <syncfusion:Header>
-                        <syncfusion:Header.Template>
-                            <ControlTemplate TargetType="syncfusion:Header">
-                                <Grid>
-                                    <Border x:Name="header" Background="#f5f5f5" 
-                                            BorderBrush="Black" BorderThickness="1">
-                                        <ContentPresenter Margin="10" Content="{Binding}"/>
-                                    </Border>
-                                </Grid>
-                            </ControlTemplate>
-                        </syncfusion:Header.Template>
-                    </syncfusion:Header>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+            <!--Style for Connector-->
+            <!-- <Style TargetType="syncfusion:Connector"> -->
+            <!--     <Setter Property="TargetDecoratorStyle"> -->
+            <!--         <Setter.Value> -->
+            <!--             <Style TargetType="Path"> -->
+            <!--                 <Setter Property="Stretch" Value="Fill" /> -->
+            <!--                 <Setter Property="Fill" Value="DeepPink" /> -->
+            <!--                 ~1~ <Setter Property="" /> @1@ -->
+            <!--                 <Setter Property="Stroke" Value="DeepPink" /> -->
+            <!--                 <Setter Property="StrokeThickness" Value="2" /> -->
+            <!--                 ~1~ <Style.Triggers> @1@ -->
+            <!--                 ~1~     <DataTrigger Binding="{Binding Name}" Value="Fruits"> @1@ -->
+            <!--                 ~1~         <Setter Property="Stretch" Value="Fill"/> @1@ -->
+            <!--                 ~1~         <Setter Property="Fill" Value="Orange"/> @1@ -->
+            <!--                 ~1~         ~2~ <Setter Property="" /> @2@ @1@ -->
+            <!--                 ~1~         <Setter Property="Stroke" Value="Orange"/> @1@ -->
+            <!--                 ~1~         <Setter Property="StrokeThickness" Value="2"/> @1@ -->
+            <!--                 ~1~     </DataTrigger> @1@ -->
+            <!--                 ~1~     <DataTrigger Binding="{Binding IsAndNode}" Value="False"> @1@ -->
+            <!--                 ~1~         <Setter Property="Stretch" Value="Fill"/> @1@ -->
+            <!--                 ~1~         <Setter Property="Fill" Value="Pink"/> @1@ -->
+            <!--                 ~1~         ~2~ <Setter Property="" /> @2@ @1@ -->
+            <!--                 ~1~         <Setter Property="Stroke" Value="Pink"/> @1@ -->
+            <!--                 ~1~         <Setter Property="StrokeThickness" Value="2"/> @1@ -->
+            <!--                 ~1~     </DataTrigger> @1@ -->
+            <!--                 ~1~ </Style.Triggers> @1@ -->
+            <!--             </Style> -->
+            <!--         </Setter.Value> -->
+            <!--     </Setter> -->
+            <!-- </Style> -->
+
+            <!--Style for Symbol-->
+            <Style TargetType="syncfusion:Symbol">
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Height" Value="50" />
+                <Setter Property="Padding" Value="3" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Margin" Value="4" />
+            </Style>
+
             <DataTemplate DataType="{x:Type local:EachNode}">
-                <Border BorderThickness="2" BorderBrush="Black" Padding="8 11 8 11" CornerRadius="20">
-                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="IndianRed"/>
+                <Border BorderThickness="2" Padding="8 11 8 11">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="BorderBrush" Value="DarkGray" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsParentAndNode}" Value="True">
+                                    <Setter Property="BorderBrush" Value="Red" />
+                                    <Setter Property="CornerRadius" Value="40"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsParentAndNode}" Value="False">
+                                    <Setter Property="BorderBrush" Value="Gray" />
+                                    <Setter Property="CornerRadius" Value="40"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsDefenceNode}" Value="True">
+                                    <Setter Property="BorderBrush" Value="LawnGreen" />
+                                    <Setter Property="CornerRadius" Value="2"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Blue"/>
+                        <Path x:Name="ArcPath" Stroke="Red" StrokeThickness="2" Visibility="Collapsed">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="0.5,1">
+                                        <ArcSegment Point="1,0" Size="1,1" RotationAngle="180" IsLargeArc="False"/>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </StackPanel>
                 </Border>
-                
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding IsAndNode}" Value="True">
+                        <Setter TargetName="ArcPath" Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
             </DataTemplate>
-            
+
+
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid x:Name="Grid1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="1.5*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="3*"/>
-             <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="1.5*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File" Click="MenuItem_Click_1">
                     <MenuItem Header="_New Attack Tree" />
-                    <MenuItem Header="_Export Tree to" />
-                    <MenuItem Header="_Print" Click="MenuItem_OnClic"/>
+                    <MenuItem Header="_Export" Click="MenuItem_ExportClick"/>
+                    <MenuItem Header="_Print" Click="MenuItem_OnClic" />
+                    <MenuItem Header="_Save" Click="SaveMenuItem_Click"/>
                     <MenuItem Header="_Close Tree" />
                     <Separator />
-                    <MenuItem Header="_Exit" />
+                    <MenuItem Header="_Exit" Click="closeButton_Click" />
                 </MenuItem>
                 <MenuItem Header="_View">
-                    <MenuItem Header="_Zoom in"/>
-                    <MenuItem Header="_Zoom out"/>
-                    <MenuItem Header="_Fullscreen"/>
+                    <MenuItem Header="_Zoom in" />
+                    <MenuItem Header="_Zoom out" />
+                    <MenuItem Header="_Fullscreen" Click="MenuItemFullScreen"/>
                 </MenuItem>
                 <MenuItem Header="_Actions" Click="MenuItem_Click">
-                    <MenuItem Header="_Undo... Ctrl+Z"/>
-                    <MenuItem Header="_Redo... Ctrl+Y"/>
-                    <MenuItem Header="_Fullscreen"/>
+                    <MenuItem Header="_Undo... Ctrl+Z" />
+                    <MenuItem Header="_Redo... Ctrl+Y" />
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="_Sample Trees" Click="MenuItem_OnClick"/>
+                    <MenuItem Header="_Sample Trees" Click="MenuItem_OnClick" />
+                    <MenuItem Header="_About" Click="AboutItem_Click" />
                 </MenuItem>
             </Menu>
         </DockPanel>
-            <TextBox Name="ATdescription" Grid.Row="2" Foreground="MidnightBlue" Grid.RowSpan="2" Grid.Column="0" AcceptsReturn="True" AcceptsTab="True" FontSize="15"/>
-            <Button Grid.Row="2" Grid.Column="0" Height="40" Background="Gold" Foreground="White" BorderBrush="Gold" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2 6 6 6" Width="100"
-                    Click="Button_OnClick" FontStyle="Italic" FontWeight="Bold"> Generate Tree
-                <Button.Resources>
-                    <Style TargetType="Border">
+        <TextBox Name="ATdescription" Grid.Row="2" Foreground="MidnightBlue" Grid.RowSpan="2" Grid.Column="0"
+                 AcceptsReturn="True" AcceptsTab="True" FontSize="15" />
+        <Button Grid.Row="2" Grid.Column="0" Height="40" Background="Gold" Foreground="White" BorderBrush="Gold"
+                VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2 6 6 6" Width="100"
+                Click="Button_OnClick" FontStyle="Italic" FontWeight="Bold">
+            Generate Tree
+            <Button.Resources>
+                <Style TargetType="Border">
 
-                        <Setter Property="CornerRadius" Value="3"/>
-                    </Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Orange" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Resources></Button>
-            <!-- <TextBox Grid.Column="1" Grid.Row="1" AcceptsReturn="True"/> -->
-            <Label Grid.Row="1" Grid.Column="0" Background="Lavender"  Padding="5  5 5 5" HorizontalAlignment="Left" Margin="4 5 5 5" Content="Text view"/>
-            <Label Grid.Row="1" Grid.Column="1" Background="Lavender"  HorizontalAlignment="Center" Margin="2 5 5 5" Content="Tree View" />
-            <syncfusion:SfDiagram x:Name="Diagram" Grid.Row="2" DefaultConnectorType="Line" Grid.Column="1" Grid.RowSpan="2">
-     
- 
-       
-            </syncfusion:SfDiagram>
-    
-            <TextBox Grid.Row="3" AcceptsReturn="True" x:Name="SearchTermTextBox" Text="Message Console" IsReadOnly="True" FontWeight="Bold">
-   
-            </TextBox>
+                    <Setter Property="CornerRadius" Value="3" />
+                </Style>
+                <Style TargetType="{x:Type Button}">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="Orange" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Resources>
+        </Button>
+        <!-- <TextBox Grid.Column="1" Grid.Row="1" AcceptsReturn="True"/> -->
+        <Label Grid.Row="1" Grid.Column="0" Background="Lavender" Padding="5  5 5 5" HorizontalAlignment="Left"
+               Margin="4 5 5 5" Content="Text view" />
+        <Label Grid.Row="1" Grid.Column="1" Background="Lavender" HorizontalAlignment="Center" Margin="2 5 5 5"
+               Content="Tree View" />
+        <syncfusion:SfDiagram x:Name="Diagram" Grid.Row="2" DefaultConnectorType="Line" Grid.Column="1"
+                              Grid.RowSpan="2">
             
+        </syncfusion:SfDiagram>
+
+        <TextBox Grid.Row="3" AcceptsReturn="True" x:Name="SearchTermTextBox"
+                 FontWeight="Bold" />
 
 
-    
-        </Grid>    
+    </Grid>
 
 </Window>

@@ -1,0 +1,27 @@
+﻿<Window x:Class="Text2TreeTool.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Text2TreeTool"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        mc:Ignorable="d"
+        Title="AboutWindow" Height="360" Width="450">
+    <Grid>
+ <StackPanel Margin="0 15 0 0">
+     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0 ">
+         <svgc:SvgViewbox Source="/Icons/genealogy-svgrepo-com.svg" Width="40" Height="30" Margin="4 8 0 4"></svgc:SvgViewbox>
+         <Label Content="TabAttackTree Tool" FontWeight="Bold" FontSize="24" Foreground="DarkBlue"></Label>
+     </StackPanel>
+     <TextBlock Margin="18 20 15 0 " FontSize="14" Foreground="DodgerBlue" FontWeight="Light" TextWrapping="Wrap" Text="An open source project targeted towards businesses - more specifically IT and cyber security analysts and consultants. Planned, designed, developed, tested, and maintained by an individual developer. Project was organised, supervised and supported by Aston University."></TextBlock>
+     
+ </StackPanel>
+     <ContentControl Height="60" Width="90" Margin="10 0 0 5" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+         <svgc:SvgViewbox Source="/Icons/logo.svg"/>
+     </ContentControl>
+        <StackPanel Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <svgc:SvgViewbox Source="/Icons/mail-send-fill.svg" Width="20" Height="15" Margin="0 0 3 14"></svgc:SvgViewbox>
+        <TextBlock FontWeight="Medium" Foreground="Blue" Margin="0 0 8 0" FontSize="11" Text="210096352@aston.ac.uk" HorizontalAlignment="Right"></TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>
