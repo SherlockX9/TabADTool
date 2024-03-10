@@ -192,37 +192,172 @@ public partial class MainWindow : Window
         ATdescription.Text = tabDelimited;
     }
 
-    private void MenuItem_ExportClick(object sender, RoutedEventArgs e)
+    private void MenuItem_PNGClick(object sender, RoutedEventArgs e)
     {
         
-        Console.WriteLine("Export button clicked. Initiating export operation...");
+        Console.WriteLine("PNG button clicked. Initiating export operation...");
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "PNG Files (*.png)|*.png";
+        saveFileDialog.Title = "Choose export location";
+        saveFileDialog.DefaultExt = ".png";
 
-        // Configure export settings
-        ExportSettings settings = new ExportSettings()
-        {  
-            FileName = "C:\\Users\\premi\\Documents\\Uni\\Finalyearproject\\Syncfusion image exports\\DiagramExport.png",
-            
-        }; 
+        // Show the SaveFileDialog
+        bool? result = saveFileDialog.ShowDialog();
 
-        // Set export settings for the Diagram
-        Diagram.ExportSettings = settings;
-
-        try
+        // Check if the user selected a file
+        if (result == true)
         {
-            // Trigger the export operation
+            // Get the selected file path
+            string filePath = saveFileDialog.FileName;
+
+            // Export the diagram to the selected file
+            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.FileName = filePath;
             Diagram.Export();
-
-            // Log a message indicating that the export operation succeeded
-            Console.WriteLine("Export operation completed successfully.");
-
-            // At this point, the Save File Dialog should be shown by the Syncfusion Diagram control.
-            // If the dialog is not shown, there might be an issue with the Syncfusion control.
-
         }
-        catch (Exception ex)
+    }
+    private void MenuItem_JPEGClick(object sender, RoutedEventArgs e)
+    {
+        
+        Console.WriteLine("JPEG button clicked. Initiating export operation...");
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "JPEG Files (*.jpeg)|*.jpeg";
+        saveFileDialog.Title = "Choose export location";
+        saveFileDialog.DefaultExt = ".jpeg";
+
+        // Show the SaveFileDialog
+        bool? result = saveFileDialog.ShowDialog();
+
+        // Check if the user selected a file
+        if (result == true)
         {
-            // Log an error message if the export operation fails
-            Console.WriteLine($"Export operation failed. Error: {ex.Message}");
+            // Get the selected file path
+            string filePath = saveFileDialog.FileName;
+
+            // Export the diagram to the selected file
+            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.FileName = filePath;
+            Diagram.Export();
+        }
+    }
+    private void MenuItem_TIFFClick(object sender, RoutedEventArgs e)
+    {
+        
+        Console.WriteLine("TIFF button clicked. Initiating export operation...");
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "TIFF Files (*.tiff)|*.tiff";
+        saveFileDialog.Title = "Choose export location";
+        saveFileDialog.DefaultExt = ".tiff";
+
+        // Show the SaveFileDialog
+        bool? result = saveFileDialog.ShowDialog();
+
+        // Check if the user selected a file
+        if (result == true)
+        {
+            // Get the selected file path
+            string filePath = saveFileDialog.FileName;
+
+            // Export the diagram to the selected file
+            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.FileName = filePath;
+            Diagram.Export();
+        }
+    }
+    private void MenuItem_GIFClick(object sender, RoutedEventArgs e)
+    {
+        
+        Console.WriteLine("GIF button clicked. Initiating export operation...");
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "GIF Files (*.gif)|*.gif";
+        saveFileDialog.Title = "Choose export location";
+        saveFileDialog.DefaultExt = ".gif";
+
+        // Show the SaveFileDialog
+        bool? result = saveFileDialog.ShowDialog();
+
+        // Check if the user selected a file
+        if (result == true)
+        {
+            // Get the selected file path
+            string filePath = saveFileDialog.FileName;
+
+            // Export the diagram to the selected file
+            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.FileName = filePath;
+            Diagram.Export();
+        }
+    }
+    private void MenuItem_BMPClick(object sender, RoutedEventArgs e)
+    {
+        
+        Console.WriteLine("BMP button clicked. Initiating export operation...");
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "BMP Files (*.bmp)|*.bmp";
+        saveFileDialog.Title = "Choose export location";
+        saveFileDialog.DefaultExt = ".bmp";
+
+        // Show the SaveFileDialog
+        bool? result = saveFileDialog.ShowDialog();
+
+        // Check if the user selected a file
+        if (result == true)
+        {
+            // Get the selected file path
+            string filePath = saveFileDialog.FileName;
+
+            // Export the diagram to the selected file
+            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.FileName = filePath;
+            Diagram.Export();
+        }
+    }
+    private void MenuItem_WDPClick(object sender, RoutedEventArgs e)
+    {
+        
+        Console.WriteLine("WDP button clicked. Initiating export operation...");
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "WDP Files (*.wdp)|*.wdp";
+        saveFileDialog.Title = "Choose export location";
+        saveFileDialog.DefaultExt = ".wdp";
+
+        // Show the SaveFileDialog
+        bool? result = saveFileDialog.ShowDialog();
+
+        // Check if the user selected a file
+        if (result == true)
+        {
+            // Get the selected file path
+            string filePath = saveFileDialog.FileName;
+
+            // Export the diagram to the selected file
+            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.FileName = filePath;
+            Diagram.Export();
+        }
+    }
+    private void MenuItem_XPSClick(object sender, RoutedEventArgs e)
+    {
+        
+        Console.WriteLine("XPS button clicked. Initiating export operation...");
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "XPS Files (*.xps)|*.xps";
+        saveFileDialog.Title = "Choose export location";
+        saveFileDialog.DefaultExt = ".xps";
+
+        // Show the SaveFileDialog
+        bool? result = saveFileDialog.ShowDialog();
+
+        // Check if the user selected a file
+        if (result == true)
+        {
+            // Get the selected file path
+            string filePath = saveFileDialog.FileName;
+
+            // Export the diagram to the selected file
+            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.FileName = filePath;
+            Diagram.Export();
         }
     }
 

@@ -88,7 +88,7 @@
                                     <Setter Property="CornerRadius" Value="40"></Setter>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsParentAndNode}" Value="False">
-                                    <Setter Property="BorderBrush" Value="Gray" />
+                                    <Setter Property="BorderBrush" Value="LightSteelBlue" />
                                     <Setter Property="CornerRadius" Value="40"></Setter>
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding IsDefenceNode}" Value="True">
@@ -137,7 +137,15 @@
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File" Click="MenuItem_Click_1">
                     <MenuItem Header="_New Attack Tree" />
-                    <MenuItem Header="_Export" Click="MenuItem_ExportClick"/>
+                    <MenuItem Header="_Export">
+                        <MenuItem Header="_PNG" Click="MenuItem_PNGClick"></MenuItem>
+                        <MenuItem Header="_JPEG" Click="MenuItem_JPEGClick"></MenuItem>
+                        <MenuItem Header="_TIFF" Click="MenuItem_TIFFClick"></MenuItem>
+                        <MenuItem Header="_GIF" Click="MenuItem_GIFClick"></MenuItem>
+                        <MenuItem Header="_BMP" Click="MenuItem_BMPClick"></MenuItem>
+                        <MenuItem Header="_WDP" Click="MenuItem_WDPClick"></MenuItem>
+                        <MenuItem Header="_XPS" Click="MenuItem_XPSClick"></MenuItem>
+                    </MenuItem>
                     <MenuItem Header="_Print" Click="MenuItem_OnClic" />
                     <MenuItem Header="_Save" Click="SaveMenuItem_Click"/>
                     <MenuItem Header="_Close Tree" />
