@@ -56,7 +56,14 @@ public partial class MainWindow : Window
         //Initialize the node collection
         Diagram.Nodes = new NodeCollection();
         Diagram.Connectors = new ConnectorCollection();
+        // Diagram.ScrollSettings.ScrollInfo.ZoomPan(new ZoomPositionParameter
+        // {
+        //     ZoomCommand = ZoomCommand.VerticalScroll,
+        //     ScrollDelta = 50,
+        // });
+        Diagram.Constraints = GraphConstraints.Default & ~GraphConstraints.Selectable;
     }
+    
 
     private EachNodes GetData()
     {
@@ -131,7 +138,6 @@ public partial class MainWindow : Window
 
             // Push the current node onto the stack as the new potential parent
             parentStack.Push(node);
-
             nodes.Add(new EachNode(){NodeId=node.NodeId, ParentId = node.ParentId, Name = node.Name, IsAndNode = node.IsAndNode, IsParentAndNode = node.IsParentAndNode, IsDefenceNode = node.IsDefenceNode});
 
             // Update the last added node
@@ -150,7 +156,7 @@ public partial class MainWindow : Window
     {
     }
 
-    private void Button_OnClick(object sender, RoutedEventArgs e)
+    private void ButtonGenerateTree_OnClick(object sender, RoutedEventArgs e)
     {
         Diagram.DataSourceSettings = new DataSourceSettings
         {
@@ -166,8 +172,9 @@ public partial class MainWindow : Window
             {
                 Type = LayoutType.Hierarchical,
                 Orientation = TreeOrientation.TopToBottom,
-                HorizontalSpacing = 60,
-                VerticalSpacing = 70
+                HorizontalSpacing = 50,
+                VerticalSpacing = 75,
+                Margin = new Thickness(25)
             },
             RefreshFrequency = RefreshFrequency.ArrangeParsing
         };
@@ -178,6 +185,7 @@ public partial class MainWindow : Window
         // Diagram.UpdateLayout();
         // UpdateLayout();
     }
+    
 
 
     private void MenuItem_OnClic(object sender, RoutedEventArgs e)
@@ -403,4 +411,64 @@ public partial class MainWindow : Window
         aboutWindow.ShowDialog();
         // aboutWindow.Show();
     }
+
+    // private void ButtonFullScreen_OnClick(object sender, RoutedEventArgs e)
+    // {
+    //     WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+    //     if (WindowState == WindowState.Maximized)
+    //     {
+    //         FullScreenButton.Content = "Exit Fullscreen";
+    //     }
+    //     else
+    //     {
+    //         FullScreenButton.Content = "Fullscreen";
+    //     }
+    //     // throw new NotImplementedException();
+    // }
+    // private void MenuItemUndo_OnClick(object sender, RoutedEventArgs e)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    //
+    // private void MenuItem_RedoOnClick(object sender, RoutedEventArgs e)
+    // {
+    //     throw new NotImplementedException();
+    // }
+    private void ButtonZoomIn_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (Diagram.DataSourceSettings != null && Diagram.DataSourceSettings.DataSource != null &&
+            ((IEnumerable<object>) Diagram.DataSourceSettings.DataSource).Any())
+        {
+            var graphinfo = Diagram.Info as IGraphInfo;
+
+            // For ZoomIn function
+            graphinfo.Commands.Zoom.Execute(new ZoomPositionParameter()
+            {
+                ZoomCommand = ZoomCommand.ZoomIn,
+                ZoomFactor = 0.2,
+            });
+        }
+    }
+
+    private void ButtonZoomOut_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (Diagram.DataSourceSettings != null && Diagram.DataSourceSettings.DataSource != null &&
+            ((IEnumerable<object>) Diagram.DataSourceSettings.DataSource).Any())
+        {
+            var graphinfo = Diagram.Info as IGraphInfo;
+
+            // For ZoomOut function
+            graphinfo.Commands.Zoom.Execute(new ZoomPositionParameter()
+            {
+                ZoomCommand = ZoomCommand.ZoomOut,
+                ZoomFactor = 0.2,
+            });
+        }
+    }
+
+
+
+    
+    
+    
 }

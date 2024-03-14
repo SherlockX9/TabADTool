@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Text2TreeTool"
-
+        xmlns:editors="http://schemas.syncfusion.com/wpf"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
 
         mc:Ignorable="d"
-        Title="TabAttackTreeTool" Height="750" Icon="/Icons/tabattackicon.ico" Width="1250">
+        Title="TabAttackTreeTool" Height="800" Icon="/Icons/tabattackicon.ico" Width="1300">
     <Window.DataContext>
         <local:EachNode />
 
@@ -23,16 +23,16 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--Style for Node-->
-            <Style TargetType="syncfusion:Node">
-                <Setter Property="ShapeStyle">
-                    <Setter.Value>
-                        <Style TargetType="Path">
-                            <Setter Property="Stretch" Value="Fill" />
-                            <Setter Property="Fill" Value="DarkRed" />
-                        </Style>
-                    </Setter.Value>
-                </Setter>
-            </Style>
+            <!-- <Style TargetType="syncfusion:Node"> -->
+            <!--     <Setter Property="ShapeStyle"> -->
+            <!--         <Setter.Value> -->
+            <!--             <Style TargetType="Path"> -->
+            <!--                 <Setter Property="Stretch" Value="Fill" /> -->
+            <!--                 <Setter Property="Fill" Value="DarkRed" /> -->
+            <!--             </Style> -->
+            <!--         </Setter.Value> -->
+            <!--     </Setter> -->
+            <!-- </Style> -->
 
 
             <!--Style for Connector-->
@@ -126,6 +126,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="1.5*" />
+            <!-- <ColumnDefinition Width="0.5*"/> -->
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -152,14 +153,9 @@
                     <Separator />
                     <MenuItem Header="_Exit" Click="closeButton_Click" />
                 </MenuItem>
-                <MenuItem Header="_View" Padding="4" Margin="0 0 10 0">
-                    <MenuItem Header="_Zoom in" />
-                    <MenuItem Header="_Zoom out" />
-                    <MenuItem Header="_Fullscreen" Click="MenuItemFullScreen"/>
-                </MenuItem>
                 <MenuItem Header="_Actions" Click="MenuItem_Click" Padding="4" Margin="0 0 10 0">
-                    <MenuItem Header="_Undo... Ctrl+Z" />
-                    <MenuItem Header="_Redo... Ctrl+Y" />
+                    <MenuItem Header="_Undo" Command="ApplicationCommands.Undo" />
+                    <MenuItem Header="_Redo" Command="ApplicationCommands.Redo"/>
                 </MenuItem>
                 <MenuItem Header="_Help" Padding="4">
                     <MenuItem Header="_Sample Trees" Click="MenuItem_OnClick" />
@@ -167,11 +163,21 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <TextBox Name="ATdescription" Grid.Row="2" Foreground="MidnightBlue" Grid.RowSpan="2" Grid.Column="0"
-                 AcceptsReturn="True" AcceptsTab="True" FontSize="15" />
+                <!-- <Button Content="Fullscreen" x:Name="FullScreenButton" Padding="4 2 4 2" Margin="4 4 4 4 " Background="DarkTurquoise" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Click="ButtonFullScreen_OnClick"/> -->
+        <editors:SfTextBoxExt Name="ATdescription" Grid.Row="2" Foreground="CadetBlue" Grid.RowSpan="2" Grid.Column="0"
+                 AcceptsReturn="True" AcceptsTab="True" FontSize="15" >
+            <editors:SfTextBoxExt.Watermark>
+                <StackPanel>
+                    <TextBlock Text="Describe Attack-Defence tree here." 
+                               Opacity="0.9" Foreground="DarkGray" Margin="0 0 0 3"/>
+                    <TextBlock Text="To familiarise with required syntax, go to Help > Sample Trees" 
+                               Opacity="0.9" Foreground="DarkGray"/>
+                </StackPanel>
+            </editors:SfTextBoxExt.Watermark>
+        </editors:SfTextBoxExt>
         <Button Grid.Row="2" Grid.Column="0" Height="40" Background="Turquoise" Foreground="White" BorderThickness="0"
                 VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2 6 6 6" Width="100"
-                Click="Button_OnClick" FontStyle="Italic" FontWeight="Bold">
+                Click="ButtonGenerateTree_OnClick" FontStyle="Italic" FontWeight="Bold">
             Generate Tree
             <Button.Resources>
                 <Style TargetType="Border">
@@ -192,7 +198,12 @@
                Margin="4 5 5 5" Content="Text view" FontSize="14" FontWeight="Medium" />
         <Label Grid.Row="1" Grid.Column="1" Background="#bdecfc" HorizontalAlignment="Center" Margin="2 5 5 5" Padding="5 5 5 5"
                Content="Tree View" FontSize="14" FontStretch="SemiCondensed" FontWeight="Medium" />
-        <syncfusion:SfDiagram x:Name="Diagram" Grid.Row="2" DefaultConnectorType="Line" Grid.Column="1"
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+            
+        <Button Content="Zoom in" Click="ButtonZoomIn_OnClick"></Button>
+        <Button Content="Zoom out" Click="ButtonZoomOut_OnClick"></Button>
+        </StackPanel>
+        <syncfusion:SfDiagram x:Name="Diagram" Grid.Row="2" DefaultConnectorType="Line"  Grid.Column="1"
                               Grid.RowSpan="2">
             
         </syncfusion:SfDiagram>
