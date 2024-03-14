@@ -137,7 +137,7 @@
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
             <Menu DockPanel.Dock="Top" Padding="2 6 0 6" FontSize="14" Background="LightBlue">
                 <MenuItem Header="_File" Click="MenuItem_Click_1" Padding="4" Margin="0 0 10 0">
-                    <MenuItem Header="_New Attack Tree" />
+                    <MenuItem Header="_New Attack Tree" Click="NewAttackItem_OnClick" />
                     <MenuItem Header="_Export">
                         <MenuItem Header="_PNG" Click="MenuItem_PNGClick"></MenuItem>
                         <MenuItem Header="_JPEG" Click="MenuItem_JPEGClick"></MenuItem>
@@ -149,7 +149,6 @@
                     </MenuItem>
                     <MenuItem Header="_Print" Click="MenuItem_OnClic" />
                     <MenuItem Header="_Save" Click="SaveMenuItem_Click"/>
-                    <MenuItem Header="_Close Tree" />
                     <Separator />
                     <MenuItem Header="_Exit" Click="closeButton_Click" />
                 </MenuItem>
@@ -200,8 +199,8 @@
                Content="Tree View" FontSize="14" FontStretch="SemiCondensed" FontWeight="Medium" />
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
             
-        <Button Content="Zoom in" Click="ButtonZoomIn_OnClick"></Button>
-        <Button Content="Zoom out" Click="ButtonZoomOut_OnClick"></Button>
+        <Button Content="Zoom in" Margin="3" Click="ButtonZoomIn_OnClick" Foreground="WhiteSmoke" FontSize="10" Padding="3" Background="LightSeaGreen"></Button>
+        <Button Content="Zoom out" Margin="3" Click="ButtonZoomOut_OnClick" Foreground="WhiteSmoke" FontSize="10" Padding="3" Background="LightSeaGreen"></Button>
         </StackPanel>
         <syncfusion:SfDiagram x:Name="Diagram" Grid.Row="2" DefaultConnectorType="Line"  Grid.Column="1"
                               Grid.RowSpan="2">

@@ -63,7 +63,7 @@ public partial class MainWindow : Window
         // });
         Diagram.Constraints = GraphConstraints.Default & ~GraphConstraints.Selectable;
     }
-    
+
 
     private EachNodes GetData()
     {
@@ -86,7 +86,7 @@ public partial class MainWindow : Window
             if (string.IsNullOrWhiteSpace(nodeName))
             {
                 SearchTermTextBox.Text = $"Message: Line {lineNumber} has whitespace but no text.";
-            
+
                 continue;
             }
 
@@ -138,7 +138,11 @@ public partial class MainWindow : Window
 
             // Push the current node onto the stack as the new potential parent
             parentStack.Push(node);
-            nodes.Add(new EachNode(){NodeId=node.NodeId, ParentId = node.ParentId, Name = node.Name, IsAndNode = node.IsAndNode, IsParentAndNode = node.IsParentAndNode, IsDefenceNode = node.IsDefenceNode});
+            nodes.Add(new EachNode()
+            {
+                NodeId = node.NodeId, ParentId = node.ParentId, Name = node.Name, IsAndNode = node.IsAndNode,
+                IsParentAndNode = node.IsParentAndNode, IsDefenceNode = node.IsDefenceNode
+            });
 
             // Update the last added node
             lastAddedNode = node;
@@ -164,7 +168,7 @@ public partial class MainWindow : Window
             ParentId = "ParentId",
             Root = "1",
             DataSource = GetData()
- 
+
         };
         Diagram.LayoutManager = new LayoutManager
         {
@@ -185,7 +189,7 @@ public partial class MainWindow : Window
         // Diagram.UpdateLayout();
         // UpdateLayout();
     }
-    
+
 
 
     private void MenuItem_OnClic(object sender, RoutedEventArgs e)
@@ -204,7 +208,7 @@ public partial class MainWindow : Window
 
     private void MenuItem_PNGClick(object sender, RoutedEventArgs e)
     {
-        
+
         Console.WriteLine("PNG button clicked. Initiating export operation...");
         SaveFileDialog saveFileDialog = new SaveFileDialog();
         saveFileDialog.Filter = "PNG Files (*.png)|*.png";
@@ -226,9 +230,10 @@ public partial class MainWindow : Window
             Diagram.Export();
         }
     }
+
     private void MenuItem_JPEGClick(object sender, RoutedEventArgs e)
     {
-        
+
         Console.WriteLine("JPEG button clicked. Initiating export operation...");
         SaveFileDialog saveFileDialog = new SaveFileDialog();
         saveFileDialog.Filter = "JPEG Files (*.jpeg)|*.jpeg";
@@ -250,9 +255,10 @@ public partial class MainWindow : Window
             Diagram.Export();
         }
     }
+
     private void MenuItem_TIFFClick(object sender, RoutedEventArgs e)
     {
-        
+
         Console.WriteLine("TIFF button clicked. Initiating export operation...");
         SaveFileDialog saveFileDialog = new SaveFileDialog();
         saveFileDialog.Filter = "TIFF Files (*.tiff)|*.tiff";
@@ -274,9 +280,10 @@ public partial class MainWindow : Window
             Diagram.Export();
         }
     }
+
     private void MenuItem_GIFClick(object sender, RoutedEventArgs e)
     {
-        
+
         Console.WriteLine("GIF button clicked. Initiating export operation...");
         SaveFileDialog saveFileDialog = new SaveFileDialog();
         saveFileDialog.Filter = "GIF Files (*.gif)|*.gif";
@@ -298,9 +305,10 @@ public partial class MainWindow : Window
             Diagram.Export();
         }
     }
+
     private void MenuItem_BMPClick(object sender, RoutedEventArgs e)
     {
-        
+
         Console.WriteLine("BMP button clicked. Initiating export operation...");
         SaveFileDialog saveFileDialog = new SaveFileDialog();
         saveFileDialog.Filter = "BMP Files (*.bmp)|*.bmp";
@@ -322,9 +330,10 @@ public partial class MainWindow : Window
             Diagram.Export();
         }
     }
+
     private void MenuItem_WDPClick(object sender, RoutedEventArgs e)
     {
-        
+
         Console.WriteLine("WDP button clicked. Initiating export operation...");
         SaveFileDialog saveFileDialog = new SaveFileDialog();
         saveFileDialog.Filter = "WDP Files (*.wdp)|*.wdp";
@@ -346,9 +355,10 @@ public partial class MainWindow : Window
             Diagram.Export();
         }
     }
+
     private void MenuItem_XPSClick(object sender, RoutedEventArgs e)
     {
-        
+
         Console.WriteLine("XPS button clicked. Initiating export operation...");
         SaveFileDialog saveFileDialog = new SaveFileDialog();
         saveFileDialog.Filter = "XPS Files (*.xps)|*.xps";
@@ -382,7 +392,8 @@ public partial class MainWindow : Window
     {
         Console.WriteLine("clicked");
         // SaveDiagram();
-        MessageBox.Show("Diagram saved successfully.", "Save Diagram", MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show("Diagram saved successfully.", "Save Diagram", MessageBoxButton.OK,
+            MessageBoxImage.Information);
         // throw new NotImplementedException();
     }
 
@@ -390,10 +401,12 @@ public partial class MainWindow : Window
     private void LoadMenuItem_Click(object sender, RoutedEventArgs e)
     {
         Console.WriteLine("clicked");
-        
-        MessageBox.Show("Diagram loaded successfully.", "Load Diagram", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        MessageBox.Show("Diagram loaded successfully.", "Load Diagram", MessageBoxButton.OK,
+            MessageBoxImage.Information);
         // throw new NotImplementedException();
     }
+
     private void closeButton_Click(object sender, RoutedEventArgs e)
     {
         if (MessageBox.Show("\t Do you want to exit? \n \t Unsaved data will be lost", " Confirm",
@@ -437,7 +450,7 @@ public partial class MainWindow : Window
     private void ButtonZoomIn_OnClick(object sender, RoutedEventArgs e)
     {
         if (Diagram.DataSourceSettings != null && Diagram.DataSourceSettings.DataSource != null &&
-            ((IEnumerable<object>) Diagram.DataSourceSettings.DataSource).Any())
+            ((IEnumerable<object>)Diagram.DataSourceSettings.DataSource).Any())
         {
             var graphinfo = Diagram.Info as IGraphInfo;
 
@@ -453,7 +466,7 @@ public partial class MainWindow : Window
     private void ButtonZoomOut_OnClick(object sender, RoutedEventArgs e)
     {
         if (Diagram.DataSourceSettings != null && Diagram.DataSourceSettings.DataSource != null &&
-            ((IEnumerable<object>) Diagram.DataSourceSettings.DataSource).Any())
+            ((IEnumerable<object>)Diagram.DataSourceSettings.DataSource).Any())
         {
             var graphinfo = Diagram.Info as IGraphInfo;
 
@@ -467,8 +480,26 @@ public partial class MainWindow : Window
     }
 
 
+    private void NewAttackItem_OnClick(object sender, RoutedEventArgs e)
+    {
+        MessageBoxResult result = MessageBox.Show("Are you sure you want to create a new attack tree? This will clear the current text and tree view.", "Confirm New Attack Tree", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
-    
-    
-    
+        // Check the user's response
+        if (result == MessageBoxResult.Yes)
+        {
+            // Clear the text input
+            ATdescription.Text = "";
+
+            // Clear the diagram view by assigning new empty collections to Nodes and Connectors
+            Diagram.Nodes = new NodeCollection();
+            Diagram.Connectors = new ConnectorCollection();
+
+            // Optionally reset any related data structures or variables
+            // For example:
+            // currentDiagram.Clear();
+
+            // Optionally, you can set focus back to the text input
+            ATdescription.Focus();
+        }
+    }
 }
