@@ -410,7 +410,7 @@ public partial class MainWindow : Window
     private void closeButton_Click(object sender, RoutedEventArgs e)
     {
         if (MessageBox.Show("\t Do you want to exit? \n \t Unsaved data will be lost", " Confirm",
-                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
         {
             Application.Current.Shutdown();
         }
