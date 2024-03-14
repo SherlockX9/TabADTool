@@ -29,6 +29,8 @@
       <Resource Include="Icons\mail-send-fill.svg" />
       <None Remove="Icons\genealogy-svgrepo-com.svg" />
       <Resource Include="Icons\genealogy-svgrepo-com.svg" />
+      <None Remove="Icons\tabattackicon.ico" />
+      <Resource Include="Icons\tabattackicon.ico" />
     </ItemGroup>
 
 </Project>

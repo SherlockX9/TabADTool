@@ -8,7 +8,7 @@
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
 
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1250">
+        Title="TabAttackTreeTool" Height="750" Icon="/Icons/tabattackicon.ico" Width="1250">
     <Window.DataContext>
         <local:EachNode />
 
@@ -134,8 +134,8 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
-            <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_File" Click="MenuItem_Click_1">
+            <Menu DockPanel.Dock="Top" Padding="2 6 0 6" FontSize="14" Background="LightBlue">
+                <MenuItem Header="_File" Click="MenuItem_Click_1" Padding="4" Margin="0 0 10 0">
                     <MenuItem Header="_New Attack Tree" />
                     <MenuItem Header="_Export">
                         <MenuItem Header="_PNG" Click="MenuItem_PNGClick"></MenuItem>
@@ -152,16 +152,16 @@
                     <Separator />
                     <MenuItem Header="_Exit" Click="closeButton_Click" />
                 </MenuItem>
-                <MenuItem Header="_View">
+                <MenuItem Header="_View" Padding="4" Margin="0 0 10 0">
                     <MenuItem Header="_Zoom in" />
                     <MenuItem Header="_Zoom out" />
                     <MenuItem Header="_Fullscreen" Click="MenuItemFullScreen"/>
                 </MenuItem>
-                <MenuItem Header="_Actions" Click="MenuItem_Click">
+                <MenuItem Header="_Actions" Click="MenuItem_Click" Padding="4" Margin="0 0 10 0">
                     <MenuItem Header="_Undo... Ctrl+Z" />
                     <MenuItem Header="_Redo... Ctrl+Y" />
                 </MenuItem>
-                <MenuItem Header="_Help">
+                <MenuItem Header="_Help" Padding="4">
                     <MenuItem Header="_Sample Trees" Click="MenuItem_OnClick" />
                     <MenuItem Header="_About" Click="AboutItem_Click" />
                 </MenuItem>
@@ -169,7 +169,7 @@
         </DockPanel>
         <TextBox Name="ATdescription" Grid.Row="2" Foreground="MidnightBlue" Grid.RowSpan="2" Grid.Column="0"
                  AcceptsReturn="True" AcceptsTab="True" FontSize="15" />
-        <Button Grid.Row="2" Grid.Column="0" Height="40" Background="Gold" Foreground="White" BorderBrush="Gold"
+        <Button Grid.Row="2" Grid.Column="0" Height="40" Background="Turquoise" Foreground="White" BorderThickness="0"
                 VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2 6 6 6" Width="100"
                 Click="Button_OnClick" FontStyle="Italic" FontWeight="Bold">
             Generate Tree
@@ -188,10 +188,10 @@
             </Button.Resources>
         </Button>
         <!-- <TextBox Grid.Column="1" Grid.Row="1" AcceptsReturn="True"/> -->
-        <Label Grid.Row="1" Grid.Column="0" Background="Lavender" Padding="5  5 5 5" HorizontalAlignment="Left"
-               Margin="4 5 5 5" Content="Text view" />
-        <Label Grid.Row="1" Grid.Column="1" Background="Lavender" HorizontalAlignment="Center" Margin="2 5 5 5"
-               Content="Tree View" />
+        <Label Grid.Row="1" Grid.Column="0" Background="#bdecfc" Padding="5  5 5 5" HorizontalAlignment="Left"
+               Margin="4 5 5 5" Content="Text view" FontSize="14" FontWeight="Medium" />
+        <Label Grid.Row="1" Grid.Column="1" Background="#bdecfc" HorizontalAlignment="Center" Margin="2 5 5 5" Padding="5 5 5 5"
+               Content="Tree View" FontSize="14" FontStretch="SemiCondensed" FontWeight="Medium" />
         <syncfusion:SfDiagram x:Name="Diagram" Grid.Row="2" DefaultConnectorType="Line" Grid.Column="1"
                               Grid.RowSpan="2">
             

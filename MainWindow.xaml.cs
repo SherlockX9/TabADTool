@@ -171,10 +171,12 @@ public partial class MainWindow : Window
             },
             RefreshFrequency = RefreshFrequency.ArrangeParsing
         };
+        Diagram.UpdateLayout();
         Diagram.LayoutManager.Layout.UpdateLayout();
-        Diagram.InvalidateMeasure();
-        Diagram.InvalidateArrange();
+        // Diagram.InvalidateMeasure();
+        // Diagram.InvalidateArrange();
         // Diagram.UpdateLayout();
+        // UpdateLayout();
     }
 
 
@@ -235,7 +237,7 @@ public partial class MainWindow : Window
             string filePath = saveFileDialog.FileName;
 
             // Export the diagram to the selected file
-            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.ExportType = ExportType.JPEG;
             Diagram.ExportSettings.FileName = filePath;
             Diagram.Export();
         }
@@ -259,7 +261,7 @@ public partial class MainWindow : Window
             string filePath = saveFileDialog.FileName;
 
             // Export the diagram to the selected file
-            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.ExportType = ExportType.TIF;
             Diagram.ExportSettings.FileName = filePath;
             Diagram.Export();
         }
@@ -283,7 +285,7 @@ public partial class MainWindow : Window
             string filePath = saveFileDialog.FileName;
 
             // Export the diagram to the selected file
-            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.ExportType = ExportType.GIF;
             Diagram.ExportSettings.FileName = filePath;
             Diagram.Export();
         }
@@ -307,7 +309,7 @@ public partial class MainWindow : Window
             string filePath = saveFileDialog.FileName;
 
             // Export the diagram to the selected file
-            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.ExportType = ExportType.BMP;
             Diagram.ExportSettings.FileName = filePath;
             Diagram.Export();
         }
@@ -331,7 +333,7 @@ public partial class MainWindow : Window
             string filePath = saveFileDialog.FileName;
 
             // Export the diagram to the selected file
-            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.ExportType = ExportType.WDP;
             Diagram.ExportSettings.FileName = filePath;
             Diagram.Export();
         }
@@ -355,7 +357,7 @@ public partial class MainWindow : Window
             string filePath = saveFileDialog.FileName;
 
             // Export the diagram to the selected file
-            Diagram.ExportSettings.ExportType = ExportType.PNG;
+            Diagram.ExportSettings.ExportType = ExportType.BMP;
             Diagram.ExportSettings.FileName = filePath;
             Diagram.Export();
         }
@@ -398,6 +400,7 @@ public partial class MainWindow : Window
     {
         AboutWindow aboutWindow = new AboutWindow();
         aboutWindow.ResizeMode = ResizeMode.NoResize;
-        aboutWindow.Show();
+        aboutWindow.ShowDialog();
+        // aboutWindow.Show();
     }
 }
