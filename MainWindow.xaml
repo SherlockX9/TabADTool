@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:Text2TreeTool"
         xmlns:editors="http://schemas.syncfusion.com/wpf"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+        KeyUp="MainWindow_OnKeyUp"
         mc:Ignorable="d"
-        Title="TabAttackTreeTool" Height="800" Icon="/Icons/tabattackicon.ico" Width="1300">
+        Title="TabADTool" Height="800" Icon="/Icons/tabattackicon.ico" Width="1300">
     <Window.DataContext>
         <local:EachNode />
 
@@ -76,47 +77,138 @@
                 <Setter Property="BorderBrush" Value="Transparent" />
                 <Setter Property="Margin" Value="4" />
             </Style>
+            
+            <!-- <DataTemplate DataType="{x:Type local:EachNode}"> -->
+            <!--     <Border BorderThickness="2" Padding="8 11 8 11"> -->
+            <!--         <Border.Style> -->
+            <!--             <Style TargetType="Border"> -->
+            <!--                 <Setter Property="BorderBrush" Value="DarkGray" /> -->
+            <!--                 <Style.Triggers> -->
+            <!--                     <DataTrigger Binding="{Binding IsParentAndNode}" Value="True"> -->
+            <!--                         <Setter Property="BorderBrush" Value="Red" /> -->
+            <!--                         <Setter Property="CornerRadius" Value="40"></Setter> -->
+            <!--                     </DataTrigger> -->
+            <!--                     <DataTrigger Binding="{Binding IsParentAndNode}" Value="False"> -->
+            <!--                         <Setter Property="BorderBrush" Value="LightSteelBlue" /> -->
+            <!--                         <Setter Property="CornerRadius" Value="40"></Setter> -->
+            <!--                     </DataTrigger> -->
+            <!--                     <DataTrigger Binding="{Binding IsDefenceNode}" Value="True"> -->
+            <!--                         <Setter Property="BorderBrush" Value="LawnGreen" /> -->
+            <!--                         <Setter Property="CornerRadius" Value="2"></Setter> -->
+            <!--                     </DataTrigger> -->
+            <!--                 </Style.Triggers> -->
+            <!--             </Style> -->
+            <!--         </Border.Style> -->
+            <!--         <StackPanel> -->
+            <!--             <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Blue"/> -->
+            <!--             <Path x:Name="ArcPath" Stroke="Red" StrokeThickness="2" Visibility="Collapsed"> -->
+            <!--                 <Path.Data> -->
+            <!--                     <PathGeometry> -->
+            <!--                         <PathFigure StartPoint="0.5,1"> -->
+            <!--                             <ArcSegment Point="1,0" Size="1,1" RotationAngle="180" IsLargeArc="False"/> -->
+            <!--                         </PathFigure> -->
+            <!--                     </PathGeometry> -->
+            <!--                 </Path.Data> -->
+            <!--             </Path> -->
+            <!--         </StackPanel> -->
+            <!--     </Border> -->
+            <!--     <DataTemplate.Triggers> -->
+            <!--         <DataTrigger Binding="{Binding IsAndNode}" Value="True"> -->
+            <!--             <Setter TargetName="ArcPath" Property="Visibility" Value="Visible"/> -->
+            <!--         </DataTrigger> -->
+            <!--     </DataTemplate.Triggers> -->
+            <!-- </DataTemplate> -->
 
-            <DataTemplate DataType="{x:Type local:EachNode}">
-                <Border BorderThickness="2" Padding="8 11 8 11">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="BorderBrush" Value="DarkGray" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsParentAndNode}" Value="True">
-                                    <Setter Property="BorderBrush" Value="Red" />
-                                    <Setter Property="CornerRadius" Value="40"></Setter>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsParentAndNode}" Value="False">
-                                    <Setter Property="BorderBrush" Value="LightSteelBlue" />
-                                    <Setter Property="CornerRadius" Value="40"></Setter>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding IsDefenceNode}" Value="True">
-                                    <Setter Property="BorderBrush" Value="LawnGreen" />
-                                    <Setter Property="CornerRadius" Value="2"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Blue"/>
-                        <Path x:Name="ArcPath" Stroke="Red" StrokeThickness="2" Visibility="Collapsed">
-                            <Path.Data>
-                                <PathGeometry>
-                                    <PathFigure StartPoint="0.5,1">
-                                        <ArcSegment Point="1,0" Size="1,1" RotationAngle="180" IsLargeArc="False"/>
-                                    </PathFigure>
-                                </PathGeometry>
-                            </Path.Data>
-                        </Path>
-                    </StackPanel>
-                </Border>
-                <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding IsAndNode}" Value="True">
-                        <Setter TargetName="ArcPath" Property="Visibility" Value="Visible"/>
-                    </DataTrigger>
-                </DataTemplate.Triggers>
-            </DataTemplate>
+            <!-- <DataTemplate DataType="{x:Type local:EachNode}"> -->
+            <!--     <Border BorderThickness="2" Padding="8 11 8 11"> -->
+            <!--         <Border.Style> -->
+            <!--             <Style TargetType="Border"> -->
+            <!--                 <Setter Property="BorderBrush" Value="DarkGray" /> -->
+            <!--                 <Style.Triggers> -->
+            <!--                     <DataTrigger Binding="{Binding IsParentAndNode}" Value="True"> -->
+            <!--                         <Setter Property="BorderBrush" Value="Red" /> -->
+            <!--                         <Setter Property="CornerRadius" Value="40"></Setter> -->
+            <!--                     </DataTrigger> -->
+            <!--                     <DataTrigger Binding="{Binding IsParentAndNode}" Value="False"> -->
+            <!--                         <Setter Property="BorderBrush" Value="LightSteelBlue" /> -->
+            <!--                         <Setter Property="CornerRadius" Value="40"></Setter> -->
+            <!--                     </DataTrigger> -->
+            <!--                     <DataTrigger Binding="{Binding IsDefenceNode}" Value="True"> -->
+            <!--                         <Setter Property="BorderBrush" Value="LawnGreen" /> -->
+            <!--                         <Setter Property="CornerRadius" Value="2"></Setter> -->
+            <!--                     </DataTrigger> -->
+            <!--                 </Style.Triggers> -->
+            <!--             </Style> -->
+            <!--         </Border.Style> -->
+            <!--         <StackPanel> -->
+            <!--             <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Blue"/> -->
+            <!--             <Path x:Name="ArcPath" Stroke="Red" StrokeThickness="2" Visibility="Collapsed"> -->
+            <!--                 <Path.Data> -->
+            <!--                     <PathGeometry> -->
+            <!--                         <PathFigure StartPoint="0.5,1"> -->
+            <!--                             <ArcSegment Point="1,0" Size="1,1" RotationAngle="180" IsLargeArc="False"/> -->
+            <!--                         </PathFigure> -->
+            <!--                     </PathGeometry> -->
+            <!--                 </Path.Data> -->
+            <!--             </Path> -->
+            <!--         </StackPanel> -->
+            <!--     </Border> -->
+            <!--     <DataTemplate.Triggers> -->
+            <!--         <DataTrigger Binding="{Binding IsAndNode}" Value="True"> -->
+            <!--             <Setter TargetName="ArcPath" Property="Visibility" Value="Visible"/> -->
+            <!--         </DataTrigger> -->
+            <!--     </DataTemplate.Triggers> -->
+            <!-- </DataTemplate> -->
+            
+            
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+          <DataTemplate DataType="{x:Type local:EachNode}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Node content, auto-sizing based on content -->
+            <RowDefinition Height="Auto"/> <!-- Space for the arc -->
+        </Grid.RowDefinitions>
+        
+        <!-- Node content within a bordered container -->
+        <Border x:Name="NodeBorder" Grid.Row="0" BorderThickness="2" Padding="8" Background="White">
+            <!-- Node text -->
+            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Blue" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+            
+            <!-- Styling for the Border based on node type -->
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="BorderBrush" Value="DarkGray"/>
+                    <Setter Property="CornerRadius" Value="15"></Setter>
+                    <Style.Triggers>
+                        <!-- <DataTrigger Binding="{Binding IsParentAndNode}" Value="True"> -->
+                        <!--     <Setter Property="BorderBrush" Value="Red"/> -->
+                        <!-- </DataTrigger> -->
+                        <DataTrigger Binding="{Binding IsDefenceNode}" Value="True">
+                            <Setter Property="BorderBrush" Value="LawnGreen"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+        </Border>
+        
+        <!-- Arc positioned below the bordered node content -->
+        <Path x:Name="ArcPath" Grid.Row="1" Stroke="Black" StrokeThickness="2" Margin="8,-2,8,0" HorizontalAlignment="Stretch"
+              Visibility="{Binding IsAndNode, Converter={StaticResource BoolToVis}}">
+            <Path.Data>
+                <PathGeometry x:Name="ArcGeometry">
+                    <PathFigure StartPoint="0,0" IsClosed="False">
+                        <ArcSegment x:Name="ArcSegment" Point="50,0" Size="25,25" SweepDirection="Counterclockwise"/>
+                    </PathFigure>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+    </Grid>
+</DataTemplate>
+
+
+
+
+
 
 
         </ResourceDictionary>
@@ -124,6 +216,7 @@
 
     <Grid x:Name="Grid1">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="1.5*" />
             <!-- <ColumnDefinition Width="0.5*"/> -->
@@ -134,23 +227,31 @@
             <RowDefinition Height="3*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0" Grid.ColumnSpan="2">
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
             <Menu DockPanel.Dock="Top" Padding="2 6 0 6" FontSize="14" Background="LightBlue">
-                <MenuItem Header="_File" Click="MenuItem_Click_1" Padding="4" Margin="0 0 10 0">
+                <MenuItem Header="_File" Click="MenuItem_Click_1" Padding="4" Margin="0 0 10 0" >
                     <MenuItem Header="_New Attack Tree" Click="NewAttackItem_OnClick" />
+                    <MenuItem Header="_Import (.txt)" Click="ImportMenuItem_Click"/>    
+                    <Separator/>
+                    <MenuItem Header="_Save" Click="SaveMenuItem_Click"/>
+                    <MenuItem Header="_Save As (.txt)" Click="SaveAsMenuItem_Click"/>
                     <MenuItem Header="_Export">
-                        <MenuItem Header="_PNG" Click="MenuItem_PNGClick"></MenuItem>
-                        <MenuItem Header="_JPEG" Click="MenuItem_JPEGClick"></MenuItem>
-                        <MenuItem Header="_TIFF" Click="MenuItem_TIFFClick"></MenuItem>
-                        <MenuItem Header="_GIF" Click="MenuItem_GIFClick"></MenuItem>
-                        <MenuItem Header="_BMP" Click="MenuItem_BMPClick"></MenuItem>
-                        <MenuItem Header="_WDP" Click="MenuItem_WDPClick"></MenuItem>
-                        <MenuItem Header="_XPS" Click="MenuItem_XPSClick"></MenuItem>
+                        <MenuItem Header="_PNG" Click="MenuItem_PNGClick"/>
+                        <MenuItem Header="_JPEG" Click="MenuItem_JPEGClick"/>
+                        <MenuItem Header="_TIFF" Click="MenuItem_TIFFClick"/>
+                        <MenuItem Header="_GIF" Click="MenuItem_GIFClick"/>
+                        <MenuItem Header="_BMP" Click="MenuItem_BMPClick"/>
+                        <MenuItem Header="_WDP" Click="MenuItem_WDPClick"/>
+                        <MenuItem Header="_XPS" Click="MenuItem_XPSClick"/>
                     </MenuItem>
                     <MenuItem Header="_Print" Click="MenuItem_OnClic" />
-                    <MenuItem Header="_Save" Click="SaveMenuItem_Click"/>
                     <Separator />
                     <MenuItem Header="_Exit" Click="closeButton_Click" />
+                </MenuItem>
+                <MenuItem Header="_View" Click="MenuItem_Click" Padding="4" Margin="0 0 10 0">
+                        <MenuItem Header="_Zoom in" Click="ButtonZoomIn_OnClick"/>
+                        <MenuItem Header="_Zoom out" Click="ButtonZoomOut_OnClick"/>
+                        <MenuItem Header="Full screen" x:Name="FullScreenButton" Click="ButtonFullScreen_OnClick"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Actions" Click="MenuItem_Click" Padding="4" Margin="0 0 10 0">
                     <MenuItem Header="_Undo" Command="ApplicationCommands.Undo" />
@@ -162,53 +263,43 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
+                <Button Grid.Row="0" Grid.Column="1" Margin="0 0 3 0 " Padding="0 0 0 0" Content="Generate Tree" Height="30" Background="DeepSkyBlue" Foreground="White" BorderThickness="0"
+                         Width="100" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Click="ButtonGenerateTree_OnClick" FontWeight="Bold">
+                </Button>
                 <!-- <Button Content="Fullscreen" x:Name="FullScreenButton" Padding="4 2 4 2" Margin="4 4 4 4 " Background="DarkTurquoise" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="1" Click="ButtonFullScreen_OnClick"/> -->
-        <editors:SfTextBoxExt Name="ATdescription" Grid.Row="2" Foreground="CadetBlue" Grid.RowSpan="2" Grid.Column="0"
-                 AcceptsReturn="True" AcceptsTab="True" FontSize="15" >
-            <editors:SfTextBoxExt.Watermark>
-                <StackPanel>
-                    <TextBlock Text="Describe Attack-Defence tree here." 
-                               Opacity="0.9" Foreground="DarkGray" Margin="0 0 0 3"/>
-                    <TextBlock Text="To familiarise with required syntax, go to Help > Sample Trees" 
-                               Opacity="0.9" Foreground="DarkGray"/>
-                </StackPanel>
-            </editors:SfTextBoxExt.Watermark>
-        </editors:SfTextBoxExt>
-        <Button Grid.Row="2" Grid.Column="0" Height="40" Background="Turquoise" Foreground="White" BorderThickness="0"
-                VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="2 6 6 6" Width="100"
-                Click="ButtonGenerateTree_OnClick" FontStyle="Italic" FontWeight="Bold">
-            Generate Tree
-            <Button.Resources>
-                <Style TargetType="Border">
-
-                    <Setter Property="CornerRadius" Value="3" />
-                </Style>
-                <Style TargetType="{x:Type Button}">
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="Orange" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Resources>
-        </Button>
+        <!-- <syncfusion:EditControl EnableOutlining="True" BorderThickness="2" BorderBrush="CornflowerBlue" Name="ATdescription" LineNumberAreaWidth="30.0" IsAutoLineNumberAreaWidthEnabled="False" LineNumberAreaBackground="LightCyan" Background="WhiteSmoke" Grid.Row="2" Foreground="DarkBlue" TabKeyBehavior="Default"  Grid.RowSpan="1" Grid.Column="1" FontSize="16" > -->
+        <!--     <syncfusion:EditControl.StatusBarSettings> -->
+        <!--         <syncfusion:StatusBarSettings Visibility="Visible" ShowFilePath="Visible" ShowLineNumber="Visible" ShowColumnNumber="Visible" ShowEncoding="Collapsed"/> -->
+        <!--     </syncfusion:EditControl.StatusBarSettings> -->
+        <!-- </syncfusion:EditControl> -->
+        <TextBox Grid.Row="2" Grid.Column="1" Name="ATdescription" AcceptsReturn="True" AcceptsTab="True" FontSize="16" Foreground="DarkBlue"></TextBox>
+        
         <!-- <TextBox Grid.Column="1" Grid.Row="1" AcceptsReturn="True"/> -->
-        <Label Grid.Row="1" Grid.Column="0" Background="#bdecfc" Padding="5  5 5 5" HorizontalAlignment="Left"
+        <TextBlock Grid.Row="2" Grid.Column="0" Name="LineCountTextBlock" />
+        <Label Grid.Row="1" Grid.Column="1" Background="#bdecfc" Padding="5  5 5 5" HorizontalAlignment="Left"
                Margin="4 5 5 5" Content="Text view" FontSize="14" FontWeight="Medium" />
-        <Label Grid.Row="1" Grid.Column="1" Background="#bdecfc" HorizontalAlignment="Center" Margin="2 5 5 5" Padding="5 5 5 5"
+        <Label Grid.Row="1" Grid.Column="2" Background="#bdecfc" HorizontalAlignment="Center" Margin="2 5 5 5" Padding="5 5 5 5"
                Content="Tree View" FontSize="14" FontStretch="SemiCondensed" FontWeight="Medium" />
-        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
             
-        <Button Content="Zoom in" Margin="3" Click="ButtonZoomIn_OnClick" Foreground="WhiteSmoke" FontSize="10" Padding="3" Background="LightSeaGreen"></Button>
-        <Button Content="Zoom out" Margin="3" Click="ButtonZoomOut_OnClick" Foreground="WhiteSmoke" FontSize="10" Padding="3" Background="LightSeaGreen"></Button>
+        <Button  Click="ButtonZoomIn_OnClick" Padding="3" Background="Snow" BorderThickness="0">
+            <!-- <StackPanel Orientation="Horizontal"> -->
+                <svgc:SvgViewbox Source="/Icons/zoom-in-alt-svgrepo-com.svg" Width="25" Height="20"></svgc:SvgViewbox>
+                <!-- <TextBlock Text="Zoom in" VerticalAlignment="Center" /> -->
+            <!-- </StackPanel> -->
+        </Button>
+        <Button  Click="ButtonZoomOut_OnClick" Background="Snow" Padding="3" BorderThickness="0">
+            <svgc:SvgViewbox Source="/Icons/zoom-out-alt-1-svgrepo-com.svg" Width="25" Height="20"></svgc:SvgViewbox>
+        </Button>
         </StackPanel>
-        <syncfusion:SfDiagram x:Name="Diagram" Grid.Row="2" DefaultConnectorType="Line"  Grid.Column="1"
+        <syncfusion:SfDiagram BorderBrush="CornflowerBlue" x:Name="Diagram" Grid.Row="2" DefaultConnectorType="Line"  Grid.Column="2"
                               Grid.RowSpan="2">
             
         </syncfusion:SfDiagram>
 
-        <TextBox Grid.Row="3" AcceptsReturn="True" x:Name="SearchTermTextBox"
-                 FontWeight="Bold" />
+        <TextBox Grid.Row="3" AcceptsReturn="True" x:Name="SearchTermTextBox" Grid.Column="1"
+                 FontWeight="Bold"/>
 
 
     </Grid>

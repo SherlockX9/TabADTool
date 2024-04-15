@@ -15,9 +15,12 @@
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2"/>
         <PackageReference Include="SharpVectors" Version="1.8.4" />
+        <PackageReference Include="Syncfusion.Edit.WPF" Version="24.2.9" />
         <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="24.2.7"/>
         <PackageReference Include="Syncfusion.SfInput.WPF" Version="24.2.9" />
         <PackageReference Include="Syncfusion.Shared.WPF" Version="24.2.9" />
+        <PackageReference Include="Syncfusion.Tools.WPF" Version="24.2.9" />
+        <PackageReference Include="WPFSplashScreen" Version="1.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -33,6 +36,22 @@
       <Resource Include="Icons\genealogy-svgrepo-com.svg" />
       <None Remove="Icons\tabattackicon.ico" />
       <Resource Include="Icons\tabattackicon.ico" />
+      <None Remove="Icons\full-screen-svgrepo-com.svg" />
+      <Resource Include="Icons\full-screen-svgrepo-com.svg" />
+      <None Remove="Icons\quit-full-screen-svgrepo-com.svg" />
+      <Resource Include="Icons\quit-full-screen-svgrepo-com.svg" />
+      <None Remove="Images\TabADTol.png" />
+      <Resource Include="Images\TabADTol.png" />
+      <None Remove="Images\TabADTool.png" />
+      <Resource Include="Images\TabADTool.png" />
+      <None Remove="Icons\zoom-in-1462-svgrepo-com.svg" />
+      <Resource Include="Icons\zoom-in-1462-svgrepo-com.svg" />
+      <None Remove="Icons\zoom-out-svgrepo-com (1).svg" />
+      <Resource Include="Icons\zoom-out-svgrepo-com (1).svg" />
+      <None Remove="Icons\zoom-in-alt-svgrepo-com.svg" />
+      <Resource Include="Icons\zoom-in-alt-svgrepo-com.svg" />
+      <None Remove="Icons\zoom-out-alt-1-svgrepo-com.svg" />
+      <Resource Include="Icons\zoom-out-alt-1-svgrepo-com.svg" />
     </ItemGroup>
 
 </Project>

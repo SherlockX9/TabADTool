@@ -7,11 +7,20 @@
         xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         mc:Ignorable="d"
         Title="About" Icon="/Icons/tabattackicon.ico" Height="360" Width="450">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Loaded">
+            <BeginStoryboard>
+                <Storyboard Duration="00:00:3" Storyboard.TargetProperty="Opacity">
+                    <DoubleAnimation From="0.5" To="1"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
     <Grid>
  <StackPanel Margin="0 15 0 0">
      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0 ">
          <svgc:SvgViewbox Source="/Icons/genealogy-svgrepo-com.svg" Width="40" Height="30" Margin="4 8 0 4"></svgc:SvgViewbox>
-         <Label Content="TabAttackTree Tool" FontWeight="Bold" FontSize="24" Foreground="DarkBlue"></Label>
+         <Label Content="TabADTool" FontWeight="Bold" FontSize="24" Foreground="DarkBlue"></Label>
      </StackPanel>
      <TextBlock Margin="18 20 15 0 " FontSize="14" Foreground="DodgerBlue" FontWeight="Light" TextWrapping="Wrap" Text="An open source project targeted towards businesses - more specifically IT and cyber security analysts and consultants. Planned, designed, developed, tested, and maintained by an individual developer. Project was organised, supervised and supported by Aston University."></TextBlock>
      
