@@ -20,4 +20,4 @@ Libraries: Syncfusion
 -Import (.txt)\
 -Export (PNG, GIF, JPEG, BMP, WDP, TIFF)\
 -Print the AT\
--Save\
+-Save
