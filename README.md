@@ -11,13 +11,13 @@
 
 
 ## Features
-##### -CRUD AT's
-#### -Parse tab-delimited text into visual attack trees
-#### -Display AND/OR relationships
-#### -Display AD Trees
-#### -Append weights to each node 
-#### -Cost-analysis of the AT
-#### -Import (.txt)
-#### -Export (PNG, GIF, JPEG, BMP, WDP, TIFF)
-#### -Print
-#### -Save
+-CRUD AT's
+-Parse tab-delimited text into visual attack trees
+-Display AND/OR relationships
+-Display AD Trees
+-Append weights to each node 
+-Cost-analysis of the AT
+-Import (.txt)
+-Export (PNG, GIF, JPEG, BMP, WDP, TIFF)
+-Print
+-Save
