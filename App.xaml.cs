@@ -11,6 +11,6 @@ public partial class App : Application
     public App()
     {
         SyncfusionLicenseProvider.RegisterLicense(
-            "MzEyNTg0OUAzMjM0MmUzMDJlMzBDS25XVkNPYy9NbG9PN21tcEN4L2xxYjFEVlpLeStxTzBvVGJ2YVc4YU8wPQ==");
+            "INSERT YOUR LICENSE KEY HERE");
     }
 }
