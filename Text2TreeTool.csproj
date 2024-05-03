@@ -52,6 +52,8 @@
       <Resource Include="Icons\zoom-in-alt-svgrepo-com.svg" />
       <None Remove="Icons\zoom-out-alt-1-svgrepo-com.svg" />
       <Resource Include="Icons\zoom-out-alt-1-svgrepo-com.svg" />
+      <None Remove="Images\TabADTolr.png" />
+      <Resource Include="Images\TabADTolr.png" />
     </ItemGroup>
 
 </Project>

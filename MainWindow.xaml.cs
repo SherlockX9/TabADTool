@@ -19,6 +19,7 @@ using Syncfusion.UI.Xaml.Diagram.Layout;
 using ArcSegment = Syncfusion.UI.Xaml.Diagram.ArcSegment;
 using System.Linq;
 using System.Windows.Documents;
+using System.Windows.Threading;
 
 namespace Text2TreeTool;
 
@@ -43,6 +44,8 @@ public partial class EachNode : ObservableObject
     public bool IsDefenceNode { get; set; }
 
     public double Cost { get; set; }
+
+    public bool IsSequentialAndNode { get; set; }
 
 
     protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
@@ -125,7 +128,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     public MainWindow()
     {
-        SplashScreen splashScreen = new SplashScreen("Images/TabADTool.png");
+        SplashScreen splashScreen = new SplashScreen("Images/TabADTolr.png");
         splashScreen.Show(autoClose: true);
         InitializeComponent();
         //Initialize the node collection
@@ -174,8 +177,18 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void ButtonGenerateTree_OnClick(object sender, RoutedEventArgs e)
     {
+        Diagram.Nodes = new NodeCollection();
+        Diagram.Connectors = new ConnectorCollection();
         SearchTermTextBox.Text = "";
-        ValidateInputAndDisplayErrors();
+        bool isValid = ValidateInputAndDisplayErrors(); // Capture the return value to decide next steps
+        
+        if (!isValid)
+        {
+            // If the input is not valid, stop further execution and perhaps notify the user
+            SearchTermTextBox.Text += "\nFix the errors above to generate the tree.";
+            return; // Prevent the execution of further code
+        }
+        // ValidateInputAndDisplayErrors();
 
         Diagram.DataSourceSettings = new DataSourceSettings
         {
@@ -191,9 +204,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             {
                 Type = LayoutType.Hierarchical,
                 Orientation = TreeOrientation.TopToBottom,
-                HorizontalSpacing = 50,
-                VerticalSpacing = 75,
-                Margin = new Thickness(25)
+                HorizontalSpacing = 25,
+                VerticalSpacing = 55,
+                Margin = new Thickness(5)
             },
             RefreshFrequency = RefreshFrequency.ArrangeParsing
         };
@@ -230,6 +243,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         foreach ((var lineNumber, var line) in lines.Select((value, index) => (index + 1, value)))
         {
+            // Ignore lines that only contain tabs or whitespace
+            if (string.IsNullOrWhiteSpace(line.Trim('\t')))
+            {
+                continue;
+            }
+
             var currentLevel = line.Length - line.TrimStart('\t').Length;
             var nodeName = line.TrimStart('\t').TrimEnd();
             var trimmedNodeName = nodeName.TrimStart('\t').TrimEnd();
@@ -309,9 +328,11 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void MenuItem_OnClick(object sender, RoutedEventArgs e)
     {
-        var tabDelimited =
-            "Bank account\n\tCash Machine\n\t\tANDPIN\n\t\t\tFind Note\n\t\t\tEavesdrop\n\t\t\tPhysical Force\n\t\tCard\n\tOnline Account\n\t\tPassword\n\t\t\tPhishing\n\t\t\tKey Logger\n\t\tUsername";
-        ATdescription.Text = tabDelimited;
+        // var tabDelimited =
+        //     "Bank account\n\tCash Machine\n\t\tANDPIN\n\t\t\tFind Note\n\t\t\tEavesdrop\n\t\t\tPhysical Force\n\t\tCard\n\tOnline Account\n\t\tPassword\n\t\t\tPhishing\n\t\t\tKey Logger\n\t\tUsername";
+        // ATdescription.Text = tabDelimited;
+
+        ShowTreeSelection();
     }
 
     private void MenuItem_PNGClick(object sender, RoutedEventArgs e)
@@ -671,33 +692,70 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         ImportTextFile();
     }
 
-    private void ValidateInputAndDisplayErrors()
+    // private void ValidateInputAndDisplayErrors()
+    // {
+    //     // Clear previous error messages
+    //     SearchTermTextBox.Text = "";
+    //
+    //     var lines = ATdescription.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+    //     foreach (var line in lines)
+    //     {
+    //         Console.WriteLine(line);
+    //     }
+    //
+    //     var errorMessage = new StringBuilder();
+    //
+    //     for (int i = 0; i < lines.Length; i++)
+    //     {
+    //         if (string.IsNullOrWhiteSpace(lines[i].Trim()))
+    //         {
+    //             errorMessage.AppendLine($"Empty line found at line {i + 1}. Please remove unnecessary blank lines.");
+    //         }
+    //     }
+    //
+    //     if (errorMessage.Length > 0)
+    //     {
+    //         // Display new error messages
+    //         SearchTermTextBox.Text = errorMessage.ToString();
+    //     }
+    // }
+
+    private bool ValidateInputAndDisplayErrors()
     {
-        // Clear previous error messages
         SearchTermTextBox.Text = "";
+        var lines = ATdescription.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.None);
 
-        var lines = ATdescription.Text.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        foreach (var line in lines)
-        {
-            Console.WriteLine(line);
+        // Remove trailing empty lines
+        int lastNonEmptyLine = Array.FindLastIndex(lines, line => !string.IsNullOrWhiteSpace(line));
+        lines = lines.Take(lastNonEmptyLine + 1).ToArray();
+
+        if (lines.Length == 0) {
+            SearchTermTextBox.Text = "No content found. Please enter valid tree data.";
+            return false;
         }
 
-        var errorMessage = new StringBuilder();
-
-        for (int i = 0; i < lines.Length; i++)
+        // Check if the first line is empty or improperly formatted
+        if (string.IsNullOrWhiteSpace(lines[0]) || lines[0].StartsWith("\t"))
         {
-            if (string.IsNullOrWhiteSpace(lines[i].Trim()))
-            {
-                errorMessage.AppendLine($"Empty line found at line {i + 1}. Please remove unnecessary blank lines.");
-            }
+            SearchTermTextBox.Text = "The root node must be on the first line and must not start with a tab.";
+            return false;
         }
 
-        if (errorMessage.Length > 0)
+        // Check for more than one root node
+        int rootNodesCount = lines.Count(line => !line.StartsWith("\t") && !string.IsNullOrWhiteSpace(line));
+        if (rootNodesCount > 1)
         {
-            // Display new error messages
-            SearchTermTextBox.Text = errorMessage.ToString();
+            SearchTermTextBox.Text = "Only one root node is allowed. Please remove extra root nodes.";
+            return false;
         }
+
+        // Validate child nodes and empty lines
+
+
+        return true;
     }
+
+
 
     //
     // private void NodeBorder_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -815,7 +873,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             var currentCost = 0.0;
             var currentPath = new List<EachNode>();
-            FindCostlyPaths(root, nodes, currentPath, ref currentCost, ref maxCost, ref minCost, ref mostCostly, ref leastCostly);
+            FindCostlyPaths(root, nodes, currentPath, ref currentCost, ref maxCost, ref minCost, ref mostCostly,
+                ref leastCostly);
         }
 
         MostCostlyRoute = mostCostly;
@@ -871,6 +930,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 maxCost = currentCost;
                 mostCostly = new Route(new List<EachNode>(currentPath), currentCost);
             }
+
             if (currentCost < minCost)
             {
                 minCost = currentCost;
@@ -881,14 +941,14 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             foreach (var child in children)
             {
-                FindCostlyPaths(child, nodes, new List<EachNode>(currentPath), ref currentCost, ref maxCost, ref minCost, ref mostCostly, ref leastCostly);
+                FindCostlyPaths(child, nodes, new List<EachNode>(currentPath), ref currentCost, ref maxCost,
+                    ref minCost, ref mostCostly, ref leastCostly);
             }
         }
 
         currentPath.RemoveAt(currentPath.Count - 1);
         currentCost -= node.Cost;
     }
-
 
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -918,4 +978,246 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     //     });
     //     SearchTermTextBox.Document.Blocks.Add(paragraph);
     // }
+
+    private void ShowTreeSelection()
+    {
+        // ResetDiagram();
+        var trees = new List<SampleTrees.AttackTree>
+        {
+         
+            new SampleTrees.AttackTree
+            {
+                Name = "Bank account fraud v.1",
+                Description =
+                    "Bank Account\n\tCash Machine\n\t\tPIN\n\t\t\tFind Note\n\t\t\tEavesdrop\n\t\t\tPhysical Force \n\t\tCard\n\tOnline\n\t\tPassword\n\t\t\tPhishing\n\t\t\tKey Logger\n\t\tUsername"
+            },
+            new SampleTrees.AttackTree
+            {
+                Name = "Bank account fraud v.2",
+                Description =
+                    "Bank Account\n\t&Cash Machine\n\t\tPIN\n\t\t\tFind Note\n\t\t\t\t!Memorize Pin\n\t\t\tEavesdrop\n\t\t\t\t!Shield Pin\n\t\t\tPhysical Force \n\t\tCard\n\t&Online\n\t\tPassword\n\t\t\tPhishing\n\t\t\tKey Logger\n\t\tUsername"
+            },
+            new SampleTrees.AttackTree
+            {
+                Name = "Bank account fraud v.3",
+                Description =
+                    "Bank Account\n\t&Cash Machine\n\t\tPIN $110\n\t\t\tFind Note $200\n\t\t\t\t!Memorize Pin\n\t\t\tEavesdrop $50\n\t\t\tPhysical Force $400\n\t\tCard $70\n\t&Online\n\t\tPassword $210\n\t\t\tPhishing $60\n\t\t\tKey Logger $200\n\t\tUsername $40"
+            },
+            new SampleTrees.AttackTree
+            {
+                Name = "Open Safe ",
+                Description =
+                    "Open Safe\n\tPick Lock\n\tLearn Combo\n\t\tFind Written Combo\n\t\tGet Combo From Target\n\t\t\tThreaten\n\t\t\tBlackmail\n\t\t\t&Eavesdrop\n\t\t\t\tListen to conversation\n\t\t\t\tGet Target to State Combo\t\n\t\t\tBribe\n\tCut Safe Open\n\tInstall Improperly\t"
+            },
+            new SampleTrees.AttackTree
+            {
+                Name = "Compromise server",
+                Description =
+                    "Steal data stored in server\n\tObtain root privileges\n\t\tSteal access to a user with root priviliges\n\t\t\t!Change the password periodically\n\t\t\t!Log out the pc after use\n\t\t\t!Add an identification token\n\t\tCorrupt a user with root privileges\n\t\t\t!Add an indetification token\n\t\t\t!Motivate employees\n\tAttack the system with a remote login\n\t\tExploit an on-line vulnerability\n\t\t\t!Update the system periodically\n\t\t\t!Separate the contents on the server\n\t\tExploit a web server vulnerability\n\t\t\t!Use an anti-virus software\n\t\t\t!Stop suspicious attachments\n\t&Steal the server\n\t\tAccess to the server room\n\t\t\t!Install a security door\n\t\t\t!Install a safety lock\n\t\tGo out unobserved\n\t\t\t!Install video surveillance equipment\n\t\t\t!Employ a security guard"
+            }
+        };
+        SampleTrees selectWindow = new SampleTrees(trees);
+        if (selectWindow.ShowDialog() == true)
+        {
+            DisplayTree(selectWindow.SelectedTree);
+            
+        }
+    }
+
+
+    private void DisplayTree(SampleTrees.AttackTree tree)
+    {
+        // First, update the text box with the tree description
+        ATdescription.Text = tree.Description;
+
+        // Reset and prepare the diagram for new data
+        ResetDiagram();
+
+        // Parse the description into nodes, including cost parsing
+        Dispatcher.Invoke(() =>
+        {
+            EachNodes nodes = GetDataFromDescription(tree.Description);
+
+            // Configure the diagram's data source settings
+            Diagram.DataSourceSettings.DataSource = nodes;
+
+            // Apply layout settings and update diagram layout
+            Diagram.LayoutManager.Layout.UpdateLayout();
+
+            // Perform layout updates before calculating routes to ensure all nodes are positioned correctly
+            Diagram.LayoutManager.Layout.UpdateLayout();
+
+            // After the nodes are updated, calculate the routes to update cost paths
+            CalculateRoutes(nodes);
+
+            // Update the UI to display the calculated most and least costly routes
+            if (MostCostlyRoute != null && LeastCostlyRoute != null)
+            {
+                SearchTermTextBox.Text =
+                    $"Most Costly: {MostCostlyRoute.Description}\nLeast Costly: {LeastCostlyRoute.Description}";
+            }
+            else
+            {
+                SearchTermTextBox.Text = "No routes calculated.";
+            }
+        }, DispatcherPriority.DataBind);
+
+        // Update visual elements if needed
+        Diagram.LayoutUpdated += Diagram_LayoutUpdated;
+    }
+
+    private void Diagram_LayoutUpdated(object sender, EventArgs e)
+    {
+        // Unsubscribe from the LayoutUpdated event to prevent multiple calls
+        Diagram.LayoutUpdated -= Diagram_LayoutUpdated;
+
+        // Additional updates post layout, if required
+        UpdateArcSizeForAllNodes();
+    }
+
+
+
+    private void ResetDiagram()
+    {
+        // Clear existing nodes and connectors
+        Diagram.Nodes = new NodeCollection();
+        Diagram.Connectors = new ConnectorCollection();
+
+        // Re-initialize DataSourceSettings and LayoutManager to their default configurations
+        Diagram.DataSourceSettings = new DataSourceSettings
+        {
+            Id = "NodeId",
+            ParentId = "ParentId",
+            Root = "1" // Set this according to what your application needs
+        };
+
+        // Initialize a new layout to avoid any null references
+        Diagram.LayoutManager = new LayoutManager
+        {
+            Layout = new DirectedTreeLayout
+            {
+                Type = LayoutType.Hierarchical,
+                Orientation = TreeOrientation.TopToBottom,
+                HorizontalSpacing = 25,
+                VerticalSpacing = 55,
+                Margin = new Thickness(25)
+            }
+        };
+    }
+
+
+    private void GenerateTreeVisualization(string treeDescription)
+    {
+        try
+        {
+            // Parse the new description into nodes
+            EachNodes nodes = GetDataFromDescription(treeDescription);
+
+            // Configure the diagram's data source settings consistently
+            Diagram.DataSourceSettings = new DataSourceSettings
+            {
+                Id = "NodeId",
+                ParentId = "ParentId",
+                Root = "1", // Ensure there's a default root set, adjust as necessary for your data
+                DataSource = nodes
+            };
+
+            // Reapply the diagram's layout
+            Diagram.LayoutManager.Layout = new DirectedTreeLayout
+            {
+                Type = LayoutType.Hierarchical,
+                Orientation = TreeOrientation.TopToBottom,
+                HorizontalSpacing = 50,
+                VerticalSpacing = 75,
+                Margin = new Thickness(25)
+            };
+
+
+            Diagram.LayoutManager.Layout.UpdateLayout();
+        }
+        catch (Exception ex)
+        {
+            // Log the exception or display a message to the user
+            Console.WriteLine($"An error occurred while generating the tree visualization: {ex.Message}");
+        }
+    }
+
+
+    private EachNodes GetDataFromDescription(string description)
+    {
+        var nodes = new EachNodes();
+        var parentStack = new Stack<EachNode>();
+        var nodeIdCounter = 1;
+        var rootAdded = false;
+
+        var lines = description.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var line in lines)
+        {
+            ProcessLine(line, nodes, parentStack, ref nodeIdCounter, ref rootAdded);
+        }
+
+        return nodes;
+    }
+
+    private void ProcessLine(string line, EachNodes nodes, Stack<EachNode> parentStack, ref int nodeIdCounter,
+        ref bool rootAdded)
+    {
+        var currentLevel = CountLeadingTabs(line);
+        var trimmedNodeName = line.TrimStart('\t').Trim();
+
+        // Logic to parse the node attributes such as name, cost, and type (AND, DEFENSE, etc.)
+        ParseNodeAttributes(ref trimmedNodeName, out double cost, out bool isAndNode, out bool isDefenseNode);
+
+        var node = new EachNode
+        {
+            Name = trimmedNodeName,
+            NodeId = nodeIdCounter.ToString(),
+            ParentId = parentStack.Count > 0 ? parentStack.Peek().NodeId : null,
+            IsAndNode = isAndNode,
+            IsDefenceNode = isDefenseNode,
+            Cost = cost
+        };
+
+        nodeIdCounter++;
+
+        // Manage the stack to ensure the correct hierarchical structure
+        while (parentStack.Count > currentLevel)
+            parentStack.Pop();
+
+        if (currentLevel == 0 && !rootAdded)
+        {
+            node.ParentId = null;
+            rootAdded = true;
+        }
+
+        if (parentStack.Any())
+        {
+            node.ParentId = parentStack.Peek().NodeId;
+        }
+
+        parentStack.Push(node);
+        nodes.Add(node);
+    }
+
+    private int CountLeadingTabs(string line)
+    {
+        return line.TakeWhile(c => c == '\t').Count();
+    }
+
+    private void ParseNodeAttributes(ref string nodeName, out double cost, out bool isAndNode, out bool isDefenseNode)
+    {
+        // Logic to extract cost and identify AND, DEFENSE nodes
+        isAndNode = nodeName.StartsWith("&");
+        isDefenseNode = nodeName.StartsWith("!");
+        if (isAndNode || isDefenseNode)
+            nodeName = nodeName.Substring(1).Trim();
+
+        int dollarIndex = nodeName.LastIndexOf('$');
+        cost = 0;
+        if (dollarIndex != -1)
+        {
+            if (double.TryParse(nodeName.Substring(dollarIndex + 1), out cost))
+                nodeName = nodeName.Substring(0, dollarIndex).Trim();
+        }
+    }
 }
