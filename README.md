@@ -6,7 +6,7 @@ This tool is developed with C# and the WPF Framework, compatible with Windows OS
 
 ## Specification
 -Programming language: C#\
--.NET Framework Version 8 \
+-.NET 8.0 \
 -UI framework: Windows Presentation Foundation (WPF)\
 -Libraries: Syncfusion
 
@@ -27,5 +27,6 @@ This tool is developed with C# and the WPF Framework, compatible with Windows OS
 2. Download the ZIP file containing the application source code
 3. For all Syncfusion components to work it is essential to  generate a license key from https://help.syncfusion.com/common/essential-studio/licensing/licensing-faq/where-can-i-get-a-license-key   
 4. Extract and open the file within an IDE that supports C# and WPF, such as Visual Studio
-5. As the project uses multiple syncfusion components, ensure the required ones are included - VS typically restores the packages automatically once the project is built. Or you can restore them using the NuGet Package Manager
-6. Place the license key in the App.xaml.cs file where it states "Insert your license key here"
+5. Place the license key in the App.xaml.cs file where it states "Insert your license key here"
+6. As the project uses multiple syncfusion components, ensure the required ones are included - VS typically restores the packages automatically once the project is built. Or you can restore them using the NuGet Package Manager
+
