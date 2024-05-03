@@ -11,13 +11,12 @@ Libraries: Syncfusion
 
 
 ## Features
--CRUD AT's \n
--Parse tab-delimited text into visual attack trees
--Display AND/OR relationships
--Display AD Trees
--Append weights to each node 
--Cost-analysis of the AT
--Import (.txt)
--Export (PNG, GIF, JPEG, BMP, WDP, TIFF)
--Print
--Save
+-CRUD operations on Attack Trees \
+-Parse tab-delimited text into visual AT/ADT's\
+-Display AND/OR logic\
+-Append weights to each node \
+-Cost-analysis\
+-Import (.txt)\
+-Export (PNG, GIF, JPEG, BMP, WDP, TIFF)\
+-Print the AT\
+-Save\
